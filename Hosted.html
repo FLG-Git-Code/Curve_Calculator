@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="black"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="FLG Curve">
+<meta name="application-name" content="FLG Curve Calculator">
+<meta name="description" content="Fire Lion Global Curve Calculator — FLG foam pump, PRV and pump power for a duty point.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23c8102e'/%3E%3Cpath d='M10 48 Q28 12 54 18' stroke='%23fff' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='38' cy='22' r='6' fill='%23ffd400'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23c8102e'/%3E%3Cpath d='M10 48 Q28 12 54 18' stroke='%23fff' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='38' cy='22' r='6' fill='%23ffd400'/%3E%3C/svg%3E">
+<title>FLG_Curve_Calculator_v1.1 – Fire Lion Global</title>
+<style>:root,[data-theme=light]{--red:#c00000;--brand:#c8102e;--ink:#1d2430;--mut:#667085;--line:#d9dee7;--line2:#eef0f4;--bg:#f4f6f9;--card:#fff;--card2:#f7f8fa;--hover:#f3f5f9;--sel:#eef3fc;--blue:#2f5fb3;--link:#2f5fb3;
+ --flag:#e8890c;--ok:#1e8e3e;--warn:#d9a400;--bad:#d93025;--imp:#6b3fb8;--hdr:#1f2633;--hbtn:#2e3747;--hbtnb:#3d4759;
+ --fbg:#fff;--fink:#1a3f8f;--fbd:#c9d0db;--empty:#fff0dc;--emptyb:#f0b061;--filled:#e5f6e9;--filledb:#8fcf9f;
+ --pill:#eef1f6;--redbg:#fde2e1;--redfg:#8a1c14;--yelbg:#fff4c2;--yelfg:#6b5200;--grnbg:#dcf3e2;--grnfg:#145c2c;--orgbg:#ffe0b8;--orgfg:#7a3d00;--impbg:#faf7ff;--impbg2:#ece3fb;
+ --warnbg:#fff9e8;--warnbd:#f0c36d;--errbg:#fff1f0;--errbd:#f1a7a1;--okbg:#effaf2;--okbd:#9fd5ae;--flagbg:#fff1de;--flagfg:#8a4b00;--tag:#eef1f6;--tagfg:#3c4656;--scrim:rgba(0,0,0,.35);--shadow:rgba(0,0,0,.18)}
+[data-theme=dark]{--ink:#e6e9ef;--mut:#9aa4b5;--line:#384152;--line2:#2f3745;--bg:#1b1f27;--card:#242a35;--card2:#2b3240;--hover:#2f3746;--sel:#2c3a55;--blue:#4c7fd9;--link:#8cb4ff;
+ --hdr:#12151b;--hbtn:#2a303c;--hbtnb:#3a4252;--fbg:#1d222b;--fink:#9fc2ff;--fbd:#465062;--empty:rgba(255,150,40,.20);--emptyb:#b97a2e;--filled:rgba(70,200,110,.18);--filledb:#3f8f57;
+ --pill:#2f3746;--redbg:#5a1f1f;--redfg:#ffb4ab;--yelbg:#4d4111;--yelfg:#ffe28a;--grnbg:#1d4a2c;--grnfg:#a6e8b8;--orgbg:#5a3510;--orgfg:#ffc98a;--impbg:#2c2540;--impbg2:#3a2f5a;--imp:#b89bff;
+ --warnbg:#3b3218;--warnbd:#8a7030;--errbg:#3d1f1f;--errbd:#8a3b3b;--okbg:#1c3626;--okbd:#3b7a4f;--flagbg:#4a3218;--flagfg:#ffc27a;--tag:#323a49;--tagfg:#c7cfdc;--scrim:rgba(0,0,0,.55);--shadow:rgba(0,0,0,.5)}
+[data-theme=black]{--ink:#e8e8e8;--mut:#9a9a9a;--line:#2b2b2b;--line2:#1e1e1e;--bg:#000;--card:#0e0e0e;--card2:#161616;--hover:#1a1a1a;--sel:#1b2638;--blue:#3f74d6;--link:#8cb4ff;
+ --hdr:#000;--hbtn:#161616;--hbtnb:#2e2e2e;--fbg:#050505;--fink:#9fc2ff;--fbd:#3a3a3a;--empty:rgba(255,150,40,.20);--emptyb:#a96d22;--filled:rgba(70,200,110,.17);--filledb:#2f7d47;
+ --pill:#1a1a1a;--redbg:#4a1414;--redfg:#ffb4ab;--yelbg:#3f3509;--yelfg:#ffe28a;--grnbg:#12381f;--grnfg:#a6e8b8;--orgbg:#4a2a08;--orgfg:#ffc98a;--impbg:#1d1630;--impbg2:#2d2347;--imp:#b89bff;
+ --warnbg:#2b2410;--warnbd:#6e5a22;--errbg:#2e1313;--errbd:#7a2f2f;--okbg:#0f2818;--okbd:#2d6a40;--flagbg:#3a260f;--flagfg:#ffc27a;--tag:#1f1f1f;--tagfg:#c7c7c7;--scrim:rgba(0,0,0,.65);--shadow:rgba(0,0,0,.7)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:15px;-webkit-text-size-adjust:100%}
+code{background:var(--tag);padding:1px 4px;border-radius:4px}
+button{font:inherit;cursor:pointer;color:inherit}
+input,select,textarea{font:inherit;color:inherit}
+:where(button,input,select,textarea,[tabindex]):focus-visible{outline:3px solid #ffd400;outline-offset:2px}
+:where(.btn,.hbtn,input,select,textarea){transition:border-color .12s ease,background-color .12s ease,box-shadow .12s ease,filter .12s ease}
+:where(button,input,select,textarea):disabled{cursor:not-allowed}
+#app{display:flex;flex-direction:column;height:100%}
+header.top{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--hdr);color:#fff;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+header.top .brand{font-weight:700;letter-spacing:.3px;white-space:nowrap;margin-left:4px}
+.settingsbtn{font-weight:700;font-size:15px;padding:7px 12px}
+.hbtn{white-space:nowrap;background:var(--hbtn);color:#fff;border:1px solid var(--hbtnb);border-radius:8px;padding:6px 10px;font-size:14px}
+.hbtn:hover{filter:brightness(1.2)}
+.fmenu{position:relative}
+.fmenu .dd{display:none;position:fixed;top:52px;left:8px;z-index:80;min-width:250px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px var(--shadow);padding:6px 0}
+.fmenu.open .dd{display:block}
+.fmenu .dd button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;padding:8px 14px;font-size:14px;color:var(--ink);cursor:pointer}
+.fmenu .dd button:hover{background:var(--hover)}
+.fmenu .dd .kb{margin-left:auto;color:var(--mut);font-size:12px}
+.fmenu .dd hr{border:none;border-top:1px solid var(--line);margin:5px 0}
+
+.spacer{flex:1}
+.main{flex:1;display:flex;min-height:0}
+.content{flex:1;overflow-y:auto;padding:18px 22px 90px;min-width:0}
+.sec{max-width:980px;margin:0 auto}
+.sec.wide{max-width:1600px;width:100%}
+.sec h2{margin:0 0 4px;font-size:22px}
+.sec .lead{color:var(--mut);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.card h3{margin:0 0 10px;font-size:16px;display:flex;align-items:center;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px 16px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field>.flabel{font-size:13px;color:var(--ink);opacity:.9;font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.field>.flabel .hint,.hint{font-weight:400;color:var(--mut)}
+.field .row{display:flex;gap:6px;align-items:center}
+input[type=text],input[type=number],select,textarea{padding:8px 10px;border:1px solid var(--fbd);border-radius:8px;background:var(--fbg);color:var(--fink);font-weight:600;min-width:0}
+.field input,.field select{width:100%}
+select{max-width:100%}
+.needs-confirm{background:var(--orgbg)!important;border-color:var(--flag)!important;color:var(--orgfg)!important}
+.unit:disabled{opacity:.55;background:var(--card2)!important;color:var(--mut)!important}
+.field .row>input{flex:1}
+.field select.unit{width:auto;flex:0 0 auto;color:var(--ink);font-weight:400}
+textarea{font-weight:400;color:var(--ink)}
+select option{background:var(--fbg);color:var(--ink)}
+.conv{font-size:12.5px;color:var(--mut);min-height:16px}
+.btn{border:1px solid var(--fbd);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 12px;font-size:14px}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:3px 8px;font-size:13px}
+.btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+table.t{border-collapse:collapse;width:100%;font-size:13.5px}
+table.t th,table.t td{border-bottom:1px solid var(--line2);padding:5px 7px;text-align:right;white-space:nowrap}
+table.t th{background:var(--card2);font-weight:600;position:sticky;top:0}
+table.t td:first-child,table.t th:first-child,table.t .l{text-align:left;white-space:normal}
+.tw{overflow-x:auto;max-width:100%}
+.tag{display:inline-block;font-size:11px;border-radius:5px;padding:1px 6px;background:var(--tag);color:var(--tagfg);font-weight:600}
+.warnbox{border:1px solid var(--warnbd);background:var(--warnbg);border-radius:10px;padding:8px 12px;margin:8px 0;font-size:13.5px}
+.errbox{border:1px solid var(--errbd);background:var(--errbg);border-radius:10px;padding:8px 12px;margin:8px 0;font-size:13.5px}
+.okbox{border:1px solid var(--okbd);background:var(--okbg);border-radius:10px;padding:8px 12px;margin:8px 0;font-size:13.5px}
+.datebanner{display:flex;align-items:center;gap:10px;border:2px solid #e8a400;background:#fff3c4;color:#5a4300;border-radius:10px;padding:9px 14px;margin:0 0 14px;font-size:14px}
+.datebanner b{font-size:15px}
+.curve-table td.curve-hit{background:var(--grnbg)!important;color:var(--grnfg);font-weight:800;box-shadow:inset 0 0 0 2px var(--ok)}
+.curve-table td.curve-warn{background:var(--orgbg)!important;color:var(--orgfg);font-weight:800;box-shadow:inset 0 0 0 2px var(--flag)}
+.curve-pump-model{width:100%;min-width:0}
+@media(min-width:861px){.curve-pump-model{min-width:0}}
+.developer-flags{border:1px solid var(--imp);background:var(--impbg);border-radius:10px;padding:10px 12px;margin-top:12px}
+.developer-flags textarea{width:100%;min-height:72px;resize:vertical}
+.developer-flag-row{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(260px,2fr) auto;gap:8px;align-items:start;margin-top:8px}
+.developer-flag-row textarea{min-height:58px}
+.char-count{font-size:11px;color:var(--mut);text-align:right}
+@media(max-width:860px){.developer-flag-row{grid-template-columns:1fr}}
+.curve-summary{margin-top:10px}
+.curve-data summary{cursor:pointer;font-weight:700}
+.curve-data[open] summary{margin-bottom:10px}
+.prv-source-table{max-height:480px;overflow:auto}
+.prv-source-table table{min-width:620px}
+.prv-source-table th:first-child,.prv-source-table td:first-child{position:sticky;left:0;background:var(--card2);z-index:1}
+.prv-source-table th{z-index:2}
+@media(max-width:860px){.prv-source-table{max-height:380px}}
+.content{overflow-anchor:none}
+
+.hbtn.ur{min-width:34px;font-size:16px;padding:4px 8px}
+.hbtn.ur:disabled{opacity:.35}
+.cropm{position:fixed;top:0;right:0;bottom:0;left:0;z-index:96;background:rgba(10,12,16,.9);display:none;flex-direction:column;align-items:center;justify-content:center;padding:10px}
+.cropm.on{display:flex}
+@media(max-width:860px){.settingsbtn span{display:none}
+.settingsbtn{min-width:34px;padding-left:8px;padding-right:8px}}
+.advanced-subtle{opacity:.78;background:var(--card2)}
+.revisions-full{width:96vw!important;height:92vh;max-height:92vh!important}
+@media(min-width:1100px){.sec.wide .tw table.t th{white-space:normal}
+.sec.wide .tw table.t{width:100%}}
+.settings-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+.settings-head>div{flex:1;min-width:0}
+.settings-close{flex:0 0 auto;position:sticky;top:0;z-index:4}
+.fbox{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:14px;width:min(780px,100%);max-height:92vh;overflow:auto;padding:16px 18px;box-shadow:0 12px 40px rgba(0,0,0,.5);line-height:1.45}
+.fbox h2{margin:0 0 6px;font-size:20px}
+.fbox .doc h3{font-size:15px;margin:14px 0 4px}
+@media (max-width:860px){.curve-table{min-width:620px}
+.content{-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}}
+@media print{.cropm{display:none!important}}
+#docm{z-index:120}
+.toptools{display:flex;gap:5px;align-items:center}
+.toptools .hbtn{min-width:36px;padding:6px 8px}
+.sw{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.sw input{width:20px;height:20px;flex-shrink:0;margin-top:1px}
+.sw small{display:block;color:var(--mut)}
+.seg{display:inline-flex;border:1px solid var(--fbd);border-radius:9px;overflow:hidden}
+.seg button{border:none;background:var(--card);color:var(--ink);padding:7px 14px;font-size:14px;border-right:1px solid var(--fbd)}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--blue);color:#fff}
+.kpi{border-radius:10px;padding:10px 12px;background:var(--card);border:1px solid var(--line)}
+.kpi .k{font-size:12px;color:var(--mut)}
+.kpi .v{font-size:20px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--mut)}
+@media (max-width:860px){.content{padding:12px 12px 90px}
+header.top{padding:6px 8px;gap:5px;flex-wrap:nowrap;overflow-x:auto}
+header.top .brand{display:none}
+.hbtn{padding:5px 8px;font-size:13px}}
+.content,header.top{-webkit-overflow-scrolling:touch}
+header.top{padding-top:calc(8px + env(safe-area-inset-top));padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px + env(safe-area-inset-right))}
+.content{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+button:disabled{opacity:.35;cursor:default}
+
+.code-modal{position:fixed;inset:0;z-index:130;display:none;flex-direction:column;background:#020704;color:#4cff72;font:14px/1.45 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;padding:calc(10px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left))}
+.code-modal.on{display:flex}
+.code-head{display:flex;gap:12px;align-items:center;border-bottom:1px solid #157a31;padding:4px 2px 10px}
+.code-head>div:first-child{flex:1;min-width:0}
+.code-head b{display:block;font-size:16px}
+.code-head small{display:block;color:#28bd53}
+.code-btn{border:1px solid #32df62;background:#06180b;color:#58ff7e;border-radius:7px;padding:6px 10px;font:inherit;cursor:pointer}
+.code-btn:hover,.code-btn:focus{background:#0b2b14;outline:1px solid #7cff99}
+.code-command{display:flex;gap:7px;align-items:center;margin-top:8px}
+.code-command label{color:#8aff9f;font-weight:700}
+.code-command input{flex:1;min-width:150px;border:1px solid #32df62;background:#000b03;color:#8aff9f;border-radius:7px;padding:8px 10px;font:inherit;box-shadow:inset 0 0 12px rgba(31,255,81,.08)}
+.code-command input:focus{outline:2px solid #49ff70}
+.code-status{min-height:17px;color:#57d875;font-size:12px;margin-top:3px}
+.code-grid{display:grid;grid-template-columns:minmax(290px,34%) minmax(0,1fr);gap:12px;flex:1;min-height:0;padding-top:12px}
+.code-tour,.code-screen{min-height:0;border:1px solid #157a31;background:#010d05;border-radius:8px}
+.code-tour{padding:10px;overflow:auto}
+.code-tour h2{font-size:14px;margin:0 0 8px;color:#8aff9f}
+.code-item{display:grid;width:100%;grid-template-columns:1fr auto;gap:2px 8px;border:0;border-bottom:1px solid #0b3e1a;background:transparent;color:inherit;padding:8px 5px;text-align:left;font:inherit;cursor:pointer}
+.code-item:hover,.code-item:focus{background:#082512;outline:none}
+.code-item.on{background:#0b3218;box-shadow:inset 3px 0 #62ff85}
+.code-item b{color:#79ff94}
+.code-item span{grid-column:1/2;color:#31c957;font-family:Arial,sans-serif;font-size:12px}
+.code-item code{grid-column:2;grid-row:1/3;color:#a4ffb5;align-self:center}
+.code-item em{grid-column:1/3;color:#1f9b44;font-size:10px;font-style:normal;text-transform:uppercase;letter-spacing:.7px}
+.code-screen{position:relative;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 28px rgba(31,255,81,.08)}
+.code-focus{position:relative;z-index:3;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:9px 11px;border-bottom:1px solid #157a31;background:#031508}
+.code-focus b{color:#a4ffb5}
+.code-focus span{color:#2fbd55;font-size:12px}
+.code-focus .btns{margin-left:auto}
+.code-codewrap{position:relative;z-index:1;overflow:auto;flex:1;padding:14px;scrollbar-color:#1b8a3a #031008}
+.code-screen pre{margin:0;color:#49ff70;white-space:pre;tab-size:4;min-width:max-content;text-shadow:0 0 7px rgba(61,255,105,.4)}
+.code-screen pre::after{content:"▮";animation:codeblink .8s step-end infinite}
+.code-screen pre::selection{background:#1d6f35;color:#fff}
+.code-scan{position:absolute;z-index:2;left:0;right:0;height:28%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(53,255,99,.08),transparent);animation:codescan 3.2s linear infinite}
+.code-modal.noanim .code-scan{display:none}
+.code-modal.noanim .code-screen pre::after{display:none}
+@keyframes codescan{from{top:-30%}to{top:105%}}
+@keyframes codeblink{50%{opacity:0}}
+.startup-code{position:fixed;inset:0;z-index:10000;display:none;overflow:hidden;background:#020704;color:#55ff79;font:clamp(11px,1.65vw,17px)/1.45 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;padding:max(18px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));text-shadow:0 0 8px rgba(61,255,105,.45)}
+.startup-code.on{display:flex;flex-direction:column}
+.startup-code .startup-title{display:flex;align-items:center;gap:12px;border-bottom:1px solid #20863d;padding-bottom:10px;color:#a8ffb8;font-weight:800;letter-spacing:.08em}
+.startup-code .startup-title span{margin-left:auto;color:#36c85a;font-size:.75em;letter-spacing:0}
+.startup-code pre{flex:1;min-height:0;overflow:hidden;margin:14px 0 0;white-space:pre-wrap}
+.startup-code .scan{position:absolute;left:0;right:0;height:30%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(53,255,99,.1),transparent);animation:codescan 1s linear infinite}
+@media(max-width:860px){html,body,#app{min-height:100%;height:100dvh}
+header.top{position:sticky;top:0;z-index:44;flex-wrap:wrap;overflow:visible;padding:calc(6px + env(safe-area-inset-top)) 8px 6px}
+header.top .fmenu .dd{top:calc(48px + env(safe-area-inset-top));max-height:calc(100dvh - 58px);overflow:auto}
+.content{padding:12px 10px calc(96px + env(safe-area-inset-bottom));scroll-padding-top:112px}
+.card{border-radius:10px}
+.grid{grid-template-columns:1fr}
+.row{align-items:stretch}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.code-head{align-items:flex-start;flex-wrap:wrap}
+.code-head .btns{width:100%}
+.code-head .code-btn{flex:1;min-height:42px}
+.code-command{width:100%}
+.code-grid{grid-template-columns:1fr;grid-template-rows:minmax(180px,42%) minmax(0,1fr)}
+.code-item{grid-template-columns:1fr}
+.code-item code{grid-column:1;grid-row:auto}
+.code-focus{padding:7px}
+.code-codewrap{padding:10px;font-size:12px}}
+@media(max-width:420px){.content{padding-left:8px;padding-right:8px}
+.code-modal{padding-left:6px;padding-right:6px}
+.code-tour{padding:7px}}
+@media print{.code-modal{display:none!important}}
+
+@media(max-width:760px){.sw{width:auto;max-width:100%}}
+#toast{pointer-events:none}
+.c9-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px 16px;align-items:start}
+.c9-grid>.field{grid-column:span 4;min-width:0;margin:0}
+.c9-grid>.field.c9-wide{grid-column:span 8}
+.c9-grid>.field.c9-full{grid-column:1/-1}
+.c9-grid .row{display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+.c9-grid .row>input,.c9-grid .row>select:first-child{flex:1 1 auto;min-width:0}
+.c9-grid .row>select.unit{flex:0 0 auto;width:auto;min-width:78px}
+.c9-grid select{width:100%;min-height:40px}
+.c9-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin-top:5px;font-size:12.5px}
+.c9-meta label{display:inline-flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap}
+.c9-meta input[type=checkbox]{width:17px;height:17px;margin:0}
+.c9-src{font-size:11px;font-weight:800;letter-spacing:.02em;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.c9-src.auto{background:var(--orgbg);color:var(--orgfg)}
+.c9-src.auto.ok{background:var(--grnbg);color:var(--grnfg)}
+.c9-src.user{background:var(--pill);color:var(--fg)}
+.c9-src.lock{background:#e8e2f8;color:#4a2a8a}
+.c9-revert{border:0;background:transparent;color:var(--blue);font-weight:700;padding:2px 0;cursor:pointer;font-size:12.5px;text-decoration:underline}
+.c9-grid .field.c9-locked .flabel:after{content:" 🔒";font-size:12px}
+.c9-efp{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--card2)}
+.c9-efp input{width:18px;height:18px;margin-top:2px}
+.c9-disc{font-size:12.5px;line-height:1.35;border-left:3px solid var(--flag);padding:6px 10px;margin-top:7px;background:var(--card2);border-radius:0 8px 8px 0}
+.c9-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0 4px}
+.c9-summary .kpi{margin:0}
+.c9-how{font-size:13px;margin:4px 0 10px;color:var(--mut)}
+.curve-table tr.c9-selrow td{outline:2px solid var(--blue);outline-offset:-2px}
+.curve-table tr.c9-dim td{opacity:.55}
+@media(max-width:1100px){.c9-grid>.field{grid-column:span 6}
+.c9-grid>.field.c9-wide{grid-column:1/-1}}
+@media(max-width:700px){.c9-grid>.field,.c9-grid>.field.c9-wide{grid-column:1/-1}
+.c9-meta{font-size:13px;gap:6px 14px}
+.c9-meta input[type=checkbox]{width:20px;height:20px}}
+/* ---- Curve Calculator app ---- */
+.c9-grid input.c9-bad{border-color:var(--bad,#c00000)!important;box-shadow:0 0 0 2px rgba(200,16,46,.25)}
+/* printing: just the calculator (no header, no edit controls) */
+@media print{@page{size:letter;margin:.45in}html,body{background:#fff;height:auto}
+  #app,.main,.content{display:block!important;height:auto!important;overflow:visible!important}
+  header.top,#toast,.noprint,.c9-meta,.startup-code,#docm,.code-modal,.c9-how,.curve-data{display:none!important}
+  .card{break-inside:avoid}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+/* View Code on short (landscape phone) screens: tour beside the code */
+@media(max-height:560px){.code-modal .code-head small,.code-modal .code-status{display:none}.code-modal .code-grid{grid-template-columns:minmax(190px,34%) minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;padding-top:6px}.code-modal .code-tour{overflow:auto}}
+@media(max-width:760px) and (min-height:561px){.code-modal .code-grid{grid-template-rows:minmax(120px,30%) minmax(0,1fr)!important}}
+/* touch: larger Confirm / Lock / Use auto targets and header buttons */
+@media(pointer:coarse){.c9-meta{gap:2px 6px}.c9-meta label{min-height:40px;padding:0 8px 0 2px}.c9-meta input[type=checkbox]{width:22px;height:22px}.c9-revert{min-height:40px;padding:0 8px}header.top .hbtn{min-height:40px;min-width:40px}}
+
+/* entry fields (text inputs keep the dark theme styling) */
+input[type=text],input[type=number],select,textarea{padding:8px 10px;border:1px solid var(--fbd);border-radius:8px;background:var(--fbg);color:var(--fink);font-weight:600;min-width:0}
+.c9-grid input[type=text]{width:100%;min-height:40px}
+/* entered / confirmed / locked values: green — same look as filled fields in the FLG calculator */
+.c9-grid .c9-ok{background:var(--filled)!important;border-color:var(--filledb)!important;color:var(--fink)!important}
+@media(max-width:560px){header.top .hbtn-label{display:none}}
+</style></head>
+<body>
+<div id="loadmsg" style="padding:20px;font-family:Arial,sans-serif"><b>Fire Lion Global Curve Calculator is loading…</b><br><br>If this message stays on screen, JavaScript is blocked or this viewer cannot run web apps. Open the page in a current browser (Chrome, Edge, Safari or Firefox).</div>
+<noscript><div style="padding:20px;font-family:Arial">JavaScript is turned off. Please enable it to use the Curve Calculator.</div></noscript>
+<script>
+(function(){var ok=true;try{new Function('let a=1;const b=(x)=>`${x}`;class C{};return b(a);')();}catch(e){ok=false;}
+if(!ok){window.__FLG_OLD__=true;document.write('<div style="max-width:640px;margin:30px auto;padding:20px;font-family:Arial,sans-serif;border:2px solid #c8102e;border-radius:12px;background:#fff;color:#222"><h2 style="margin-top:0">This browser is too old for the Curve Calculator</h2><p>Please open the file in a current version of Chrome, Edge, Safari or Firefox.</p></div>');}})();
+</script>
+<div id="app">
+  <header class="top">
+    <div class="fmenu" id="fmenu"><button class="hbtn" data-act="filemenu">File ▾</button>
+      <div class="dd">
+        <button data-act="newcalc">🗋 New calculation</button>
+        <button data-act="open">📂 Open… (calculation file)<span class="kb">Ctrl+O</span></button>
+        <button data-act="save">💾 Save (calculation file)<span class="kb">Ctrl+S</span></button>
+        <button data-act="saveas">💾 Save as… (new calculation file)</button>
+        <button data-act="recover">↺ Recover last session</button>
+        <hr>
+        <button data-act="example">Load Example</button>
+      </div></div>
+    <button class="hbtn ur" id="undoBtn" data-act="undo" title="Undo (Ctrl+Z)" disabled>↶</button>
+    <button class="hbtn ur" id="redoBtn" data-act="redo" title="Redo (Ctrl+Y / Ctrl+Shift+Z)" disabled>↷</button>
+    <button class="hbtn" id="resetAllBtn" data-act="resetall" title="Reset every entry to blank" aria-label="Reset every entry to blank">↺ <span class="hbtn-label">Reset</span></button>
+    <span class="brand">Fire Lion Global Curve Calculator</span>
+    <span class="spacer"></span>
+    <div class="toptools"><button class="hbtn" id="themeBtn" data-act="themecycle" aria-label="Switch theme" title="Switch theme">◐</button><button class="hbtn" id="appFsBtn" data-act="appfs" aria-label="Enter full screen" title="Enter full screen">⛶</button></div>
+    <button class="hbtn settingsbtn" data-go="settings" aria-label="Settings">⚙ <span>Settings</span></button>
+  </header>
+  <div class="main"><main class="content" id="content"></main></div>
+</div>
+<div class="cropm" id="docm"><div class="fbox" id="docbox"></div></div>
+<div id="toast" style="display:none;position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#1f2633;color:#fff;padding:10px 16px;border-radius:10px;z-index:99;font-size:14px;max-width:90vw"></div>
+<input type="file" accept=".json,application/json,text/plain" hidden id="fileInput">
+<div class="startup-code" id="startupCode" aria-hidden="true"><div class="scan"></div><div class="startup-title">⌘ VIEW CODE <span>FLG Curve Calculator v1.1 · read only</span></div><pre id="startupCodeText"></pre></div>
+<script>const R_={}; // section renderers
+const CURVE_DATE = '7/24/2025';
+const CURVE_FILE = 'Curve_Calculator_11.5.2026.xlsx';
+const CURVE = {
+    'FP1-15': [33, 6.5, 25, 14, 47, 8, 38, 16.5], 'FP1-30': [41, 8, 27, 17, 56, 9, 40, 19],
+    'FP1.5-50': [60, 9, 46, 20.5, 78, 10.5, 63, 23], 'FP1.5-75': [92, 14, 70, 31, 120, 16, 97, 36],
+    'FP2-100': [128, 17, 109, 38, 156, 22, 138, 45], 'FP2-150': [153, 21, 130, 45, 188, 26, 166, 54],
+    'FP2-175': [192, 26, 163, 56, 235, 32, 208, 67], 'FP3-200': [239, 29, 216, 65, 276, 37, 253, 79],
+    'FP3-225': [267, 33, 242, 72, 309, 40, 283, 86], 'FP4-250': [281, 38, 251, 78, 318, 46, 300, 94],
+    'FP4-350': [369, 47, 343, 100, 411, 59, 403, 123]
+};
+function pumpFlowLabel(model) { const r=CURVE[model]; if(!r)return ''; const lo18=Math.min(r[4],r[6]),hi18=Math.max(r[4],r[6]),lo15=Math.min(r[0],r[2]),hi15=Math.max(r[0],r[2]); return `${lo18}–${hi18} GPM @ 1800 rpm · ${lo15}–${hi15} GPM @ 1500 rpm`; }
+function curveAtBase(model, rpm, psi) {
+    const r = CURVE[model];
+    if (!r || !isFinite(psi) || (rpm !== 1500 && rpm !== 1800)) return null;
+    const hi = model === 'FP4-350' ? 232 : 261, span = hi - 100, o = rpm === 1800 ? 4 : 0;
+    const lin = (a, b) => ((b - a) / span) * (psi - hi) + b;
+    return { gpm: Math.max(0,lin(r[o],r[o+2])), hp: Math.max(0,lin(r[o+1],r[o+3])), hi, psi, extrap: psi < 100-1e-9 || psi > hi+1e-9 };
+}
+function curveAt(model, rpm, psi) {
+    rpm=+rpm; psi=+psi;
+    if(!CURVE[model]||!isFinite(psi)||!isFinite(rpm)||rpm<1||rpm>3000)return null;
+    if(rpm===1500||rpm===1800)return curveAtBase(model,rpm,psi);
+    const base=rpm<=1650?1500:1800, ratio=rpm/base, b=curveAtBase(model,base,psi/(ratio*ratio));
+    if(!b)return null;
+    const hi=model==='FP4-350'?232:261;
+    return {gpm:Math.max(0,b.gpm*ratio),hp:Math.max(0,b.hp*Math.pow(ratio,3)),hi,psi,extrap:psi<100-1e-9||psi>hi+1e-9,affinity:true,base};
+}
+const CC_PRESSURE={psi:1,bar:1/0.0689476,kPa:1/6.89476,MPa:145.0377377,'kg/cm²':14.2233433,'m H2O':1.42233433,'ft H2O':0.4335275};
+const CC_FLOW={GPM:1,LPM:1/3.785412,'L/s':1/0.0630901966666647,'m³/h':1/0.227124708,'m³/s':15850.323141};
+const CC_POWER={HP:1,kW:1/0.7457};
+const PRV_SOURCE_FILE='Pump Performance Test Sheet - REV E.xlsm',PRV_SOURCE_SHEET='PRV Raw Data',PRV_SOURCE_DATE='11/12/2026';
+const PRV_SIZES=["0.75 x 1","1 x 1.5","1.5 x 2","2 x 2.5","2 x 3"];
+const PRV_FLOW_DATA=[[5,13,37,61,95,156],[6,13,37,61,96,157],[7,13,37,62,96,158],[8,14,38,62,97,159],[9,14,38,63,97,160],[10,14,38,63,98,161],[11,14,38,63,99,162],[12,14,39,64,100,163],[13,14,39,64,100,165],[14,14,40,65,101,166],[15,14,40,65,102,167],[16,14,41,67,105,171],[17,15,42,69,107,176],[18,15,43,70,110,180],[19,16,44,72,112,185],[20,16,45,74,115,189],[21,16,46,76,117,193],[22,17,47,77,120,197],[23,17,48,79,122,200],[24,18,49,80,125,204],[25,18,50,82,127,208],[26,18,51,83,129,212],[27,18,52,85,131,215],[28,19,52,86,134,219],[29,19,53,88,136,222],[30,19,54,89,138,226],[31,19,55,90,140,230],[32,20,56,92,142,233],[33,20,56,93,145,237],[34,21,57,95,147,240],[35,21,58,96,149,244],[36,21,59,97,151,247],[37,21,60,98,153,251],[38,22,60,100,156,254],[39,22,61,101,158,258],[40,22,62,102,160,261],[41,22,63,103,162,264],[42,23,64,104,164,267],[43,23,64,106,165,271],[44,24,65,107,167,274],[45,24,66,108,169,277],[46,24,67,109,171,280],[47,24,68,110,173,283],[48,25,68,112,174,286],[49,25,69,113,176,289],[50,25,70,114,178,292],[51,25,71,115,180,295],[52,25,71,116,182,298],[53,26,72,118,183,300],[54,26,72,119,185,303],[55,26,73,120,187,306],[56,26,74,121,189,309],[57,27,74,122,190,312],[58,27,75,123,192,314],[59,28,75,124,193,317],[60,28,76,125,195,320],[61,28,77,126,197,323],[62,28,77,127,198,325],[63,29,78,128,200,328],[64,29,78,129,201,330],[65,29,79,130,203,333],[66,29,80,131,205,335],[67,29,80,132,206,338],[68,30,81,133,208,340],[69,30,81,134,209,343],[70,30,82,135,211,345],[71,30,83,136,212,347],[72,30,83,137,214,350],[73,31,84,138,215,352],[74,31,84,139,217,355],[75,31,85,140,218,357],[76,31,86,141,220,359],[77,31,86,142,221,362],[78,32,87,143,223,364],[79,32,87,144,224,367],[80,32,88,145,226,369],[81,32,89,146,227,371],[82,32,89,147,229,374],[83,33,90,147,230,376],[84,33,90,148,232,379],[85,33,91,149,233,381],[86,33,91,150,234,383],[87,33,92,151,235,385],[88,34,92,151,237,388],[89,34,93,152,238,390],[90,34,93,153,239,392],[91,34,94,154,240,394],[92,34,94,155,242,396],[93,35,95,156,243,398],[94,35,95,157,245,400],[95,35,96,158,246,402],[96,35,96,159,247,404],[97,35,97,160,248,406],[98,36,97,160,250,409],[99,36,98,161,251,411],[100,36,98,162,252,413],[101,36,98,163,253,415],[102,36,99,164,254,417],[103,36,99,164,256,419],[104,37,100,165,257,421],[105,37,100,166,258,423],[106,37,101,167,259,425],[107,37,101,167,260,427],[108,37,102,168,262,429],[109,37,102,169,263,431],[110,38,103,170,264,433],[111,38,103,170,265,435],[112,38,104,171,266,437],[113,38,104,172,268,438],[114,38,105,173,269,440],[115,38,105,173,270,442],[116,39,106,174,271,444],[117,39,106,175,272,446],[118,39,107,176,274,448],[119,39,107,176,275,450],[120,39,108,177,276,452],[121,39,108,178,277,454],[122,40,109,179,278,456],[123,40,109,179,280,458],[124,40,110,180,281,460],[125,40,110,181,282,462],[126,40,110,182,283,464],[127,40,111,182,284,466],[128,40,111,183,285,467],[129,41,112,184,286,469],[130,41,112,184,287,471],[131,41,113,185,288,473],[132,41,113,186,290,474],[133,41,114,186,291,476],[134,41,114,187,292,478],[135,42,114,188,293,480],[136,42,115,188,294,481],[137,42,115,189,295,483],[138,42,116,190,296,485],[139,42,116,191,297,487],[140,42,117,191,298,488],[141,43,117,192,299,490],[142,43,117,193,300,492],[143,43,118,193,301,494],[144,43,118,194,303,495],[145,43,119,195,304,497],[146,43,119,195,305,499],[147,44,120,196,306,501],[148,44,120,197,307,502],[149,44,121,197,308,504],[150,44,121,198,309,506],[151,44,121,199,310,508],[152,44,122,199,311,509],[153,44,122,200,312,511],[154,44,122,201,313,512],[155,45,123,201,314,514],[156,45,123,202,315,516],[157,45,124,202,316,517],[158,45,124,203,317,519],[159,45,124,204,318,520],[160,45,125,204,319,522],[161,45,125,205,320,524],[162,45,125,206,321,525],[163,46,126,206,322,527],[164,46,126,207,323,528],[165,46,126,208,324,530],[166,46,127,208,325,532],[167,46,127,209,326,533],[168,46,127,210,327,535],[169,46,128,210,328,536],[170,46,128,211,329,538],[171,47,129,211,330,540],[172,47,129,212,331,541],[173,47,129,213,332,543],[174,47,130,213,333,544],[175,47,130,214,334,546],[176,47,130,215,335,548],[177,47,131,215,336,549],[178,47,131,216,337,551],[179,47,131,216,338,552],[180,48,132,217,339,554],[181,48,132,218,340,555],[182,48,133,218,340,557],[183,48,133,219,341,558],[184,48,133,219,342,560],[185,48,134,220,343,561],[186,48,134,221,344,563],[187,48,134,221,345,564],[188,49,135,222,346,566],[189,49,135,222,347,567],[190,49,135,223,348,569],[191,49,136,224,349,570],[192,49,136,224,350,572],[193,49,136,225,351,573],[194,49,137,225,351,575],[195,49,137,226,352,576],[196,50,138,227,353,578],[197,50,138,227,354,579],[198,50,138,228,355,581],[199,50,139,228,356,582],[200,50,139,229,357,584],[201,50,139,230,358,585],[202,50,140,230,359,587],[203,50,140,231,360,588],[204,50,140,231,360,590],[205,51,141,232,361,591],[206,51,141,232,362,592],[207,51,142,233,363,594],[208,51,142,233,364,595],[209,51,142,234,365,597],[210,51,143,234,365,598],[211,51,143,235,366,599],[212,51,143,235,367,601],[213,52,144,236,368,602],[214,52,144,236,369,604],[215,52,144,237,370,605],[216,52,145,237,370,606],[217,52,145,238,371,608],[218,52,145,238,372,609],[219,52,146,239,373,611],[220,52,146,239,374,612],[221,53,147,240,375,613],[222,53,147,240,375,615],[223,53,147,241,376,616],[224,53,148,241,377,618],[225,53,148,242,378,619],[226,53,148,243,379,620],[227,53,149,243,380,622],[228,53,149,244,381,623],[229,53,149,244,381,624],[230,54,150,245,382,626],[231,54,150,245,383,627],[232,54,150,246,384,629],[233,54,151,246,385,630],[234,54,151,247,386,631],[235,54,151,248,386,633],[236,54,152,248,387,634],[237,54,152,249,388,635],[238,55,152,249,389,637],[239,55,152,250,390,638],[240,55,153,250,391,639],[241,55,153,251,391,641],[242,55,153,252,392,642],[243,55,154,252,393,643],[244,55,154,253,394,645],[245,55,154,253,395,646],[246,56,155,254,396,648],[247,56,155,254,396,649],[248,56,155,255,397,650],[249,56,156,255,398,652],[250,56,156,256,399,653],[251,56,156,256,400,654],[252,56,157,257,401,656],[253,56,157,257,401,657],[254,56,157,258,402,658],[255,57,157,258,403,659],[256,57,158,259,404,661],[257,57,158,259,404,662],[258,57,158,260,405,663],[259,57,159,260,406,665],[260,57,159,261,407,666],[261,57,159,261,407,667],[262,57,159,262,408,668],[263,58,160,262,409,670],[264,58,160,263,410,671],[265,58,160,263,410,672],[266,58,160,264,411,673],[267,58,161,264,412,675],[268,58,161,265,413,676],[269,58,161,265,413,677],[270,58,162,266,414,679],[271,59,162,266,415,680],[272,59,162,267,416,681],[273,59,162,267,416,682],[274,59,163,268,417,684],[275,59,163,268,418,685],[276,59,163,268,419,686],[277,59,164,269,420,687],[278,59,164,269,420,689],[279,59,164,270,421,690],[280,60,165,270,422,691],[281,60,165,271,423,692],[282,60,165,271,423,693],[283,60,166,272,424,695],[284,60,166,272,425,696],[285,60,166,273,426,697],[286,60,167,273,426,698],[287,60,167,274,427,699],[288,61,167,274,428,701],[289,61,167,275,429,702],[290,61,168,275,429,703],[291,61,168,276,430,704],[292,61,168,276,431,705],[293,61,169,277,432,707],[294,61,169,277,432,708],[295,61,169,278,433,709],[296,62,170,278,434,710],[297,62,170,279,435,711],[298,62,170,279,435,713],[299,62,171,280,436,714],[300,62,171,280,437,715]];
+function prvCapacityAt(psi,size){psi=+psi;const k=PRV_SIZES.indexOf(size);if(k<0||!isFinite(psi)||psi<PRV_FLOW_DATA[0][0]||psi>PRV_FLOW_DATA[PRV_FLOW_DATA.length-1][0])return NaN;const lo=Math.floor(psi),hi=Math.ceil(psi),a=PRV_FLOW_DATA[lo-5],b=PRV_FLOW_DATA[hi-5];if(!a||!b)return NaN;if(lo===hi)return +a[k+1];return +a[k+1]+(+b[k+1]-+a[k+1])*(psi-lo)/(hi-lo);}
+function ccPrvDefaultModel(listing){return listing==='UL-FM'?'511':'740';}
+function prvSourceRows(){return PRV_FLOW_DATA.map(r=>`<tr>${r.map((v,i)=>`<td class="${i?'':'l'}">${v}</td>`).join('')}</tr>`).join('');}
+const ccToPsi=(v,u)=>+v*(CC_PRESSURE[u]||1),ccFromPsi=(v,u)=>v/(CC_PRESSURE[u]||1);
+const ccToGpm=(v,u)=>+v*(CC_FLOW[u]||1),ccFromGpm=(v,u)=>v/(CC_FLOW[u]||1);
+const ccToHp=(v,u)=>+v*(CC_POWER[u]||1),ccFromHp=(v,u)=>v/(CC_POWER[u]||1);
+function ccOppositePressure(v,u){if(v===''||!isFinite(+v))return '';const psi=ccToPsi(v,u),metric=u!=='psi'&&u!=='ft H2O';return metric?`${fx(psi,2)} psi`:`${fx(ccFromPsi(psi,'bar'),3)} bar`;}
+function ccOppositeFlow(v,u){if(v===''||!isFinite(+v))return '';const g=ccToGpm(v,u),metric=!['GPM'].includes(u);return metric?`${fx(g,1)} GPM`:`${fx(ccFromGpm(g,'LPM'),1)} L/min`;}
+function ccOppositePower(v,u){if(v===''||!isFinite(+v))return '';const hp=ccToHp(v,u);return u==='HP'?`${fx(ccFromHp(hp,'kW'),1)} kW`:`${fx(hp,1)} HP`;}
+function cleanNum(v, d) { if (!isFinite(v)) return ''; return String(+v.toFixed(d == null ? 4 : d)); }
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function opts(list, val, blank) { return (blank ? `<option value="">${blank}</option>` : '') + list.map(o => { const v = typeof o === 'object' ? o.v : o, t = typeof o === 'object' ? o.t : o; return `<option value="${esc(v)}" ${String(v) === String(val) ? 'selected' : ''}>${esc(t)}</option>`; }).join(''); }
+function head(t, lead) { return `<h2>${t}</h2>${lead ? `<p class="lead">${lead}</p>` : ''}`; }
+function newDeveloperUpdateFlags(){return {kind:'FLG_DEVELOPER_UPDATE_FLAGS',schemaVersion:2,confirmationPolicy:'Before implementing any developer flag, ask the user to confirm the proposed flag-driven changes, then obtain a second explicit confirmation. Do not implement a flag until both confirmations are received, unless the user explicitly asks to implement all updates noted in developer flags.',aiInstructions:'Treat these as developer-authored app-update requirements, not automatic instructions. Before implementing any developer flag, double-confirm with the user in two separate explicit confirmation steps. The only exception is when the user explicitly asks to implement all updates noted in developer flags. Identify every flag used in the revision summary.',general:'',scoped:[]};}
+function normalizeDeveloperUpdateFlags(v){const b=newDeveloperUpdateFlags(),o=v&&typeof v==='object'?v:{};b.general=String(o.general||'').slice(0,240);b.scoped=(Array.isArray(o.scoped)?o.scoped:[]).map(x=>({scope:String((x&&x.scope)||'General').slice(0,80),note:String((x&&x.note)||'').slice(0,240)})).filter(x=>x.note||x.scope).slice(0,50);return b;}
+const fx = (v, d = 1) => (v == null || !isFinite(v)) ? '—' : (Math.abs(v) < 0.5 * Math.pow(10, -d) ? (0).toFixed(d) : v.toFixed(d));
+function ccPressureForFlow(model, rpm, gpm) {
+    const r = CURVE[model]; rpm = +rpm;
+    if (!r || !(rpm >= 1 && rpm <= 3000) || !(gpm > 0)) return null;
+    const hi = model === 'FP4-350' ? 232 : 261, span = hi - 100;
+    const base = (rpm === 1500 || rpm === 1800) ? rpm : (rpm <= 1650 ? 1500 : 1800), ratio = rpm / base, o = base === 1800 ? 4 : 0;
+    const a = r[o], b = r[o + 2];
+    if (!(Math.abs(b - a) > 1e-9)) return null;
+    return (hi + (gpm / ratio - b) * span / (b - a)) * ratio * ratio;
+}
+/* Converts the calculation to the default units of the other system, from whatever unit each field currently uses. */
+function convertCurveUnits(C, from, to) {
+    if (!C || from === to) return;
+    const met=to==='metric',pU=met?'bar':'psi',qU=met?'LPM':'GPM',wU=met?'kW':'HP';
+    ['psi','prv'].forEach(k=>{if(C[k]!==''&&C[k]!=null&&isFinite(+C[k]))C[k]=String(+ccFromPsi(ccToPsi(C[k],C.pUnit||'psi'),pU).toPrecision(12));});
+    if(C.flow!==''&&C.flow!=null&&isFinite(+C.flow))C.flow=String(+ccFromGpm(ccToGpm(C.flow,C.flowUnit||'GPM'),qU).toPrecision(12));
+    if(C.hp!==''&&C.hp!=null&&isFinite(+C.hp))C.hp=String(+ccFromHp(ccToHp(C.hp,C.hpUnit||'HP'),wU).toPrecision(12));
+    C.pUnit=pU;C.flowUnit=qU;C.hpUnit=wU;
+}
+
+
+/* ================= CURVE CALCULATOR — ANY FULLY-DEFINING INPUT SET, AUTO/CONFIRM/LOCK ================= */
+
+function render9Soon(){render(true);}
+const C9_KEYS=['listing','model','rpm','psi','flow','prv','prvModel','prvSize','hp'];
+const C9_VALKEY={listing:'prvListing',model:'model',rpm:'rpm',psi:'psi',flow:'flow',prv:'prv',prvModel:'prvModel',prvSize:'prvSize',hp:'hp'};
+const C9_LABEL={listing:'Pump listing / approval',model:'Pump model',rpm:'Motor speed',psi:'Duty point pressure',flow:'Desired flow rate',prv:'PRV lift (set) pressure',prvModel:'PRV model',prvSize:'PRV size',hp:'Required power'};
+function c9Hi(m){return m==='FP4-350'?232:261;}
+function c9Migrate(C){
+  if(!C)return C;
+  if(C.efp==null)C.efp=false;
+  if(C.m9&&typeof C.m9==='object'){C9_KEYS.forEach(k=>{if(!C.m9[k])C.m9[k]={src:'auto',conf:false,lock:false,t:0};});return C;}
+  /* a curve without metadata (new): every field starts automatic */
+  C.m9={};C9_KEYS.forEach(k=>{C.m9[k]={src:'auto',conf:false,lock:false,t:0};});
+  return C;
+}
+function c9Fixed(C,k){const m=C.m9[k],v=C[C9_VALKEY[k]];if(!((m.src==='user'||m.lock)&&v!==''&&v!=null))return false;if(['psi','flow','hp','prv','rpm'].includes(k)){const n=+v;return isFinite(n)&&n>0&&!(k==='psi'&&n>ccFromPsi(1000,C.pUnit));}return true;}
+function c9Num(v){return v===''||v==null||!isFinite(+v)?NaN:+v;}
+function c9PowerAt(model,rpm,psi){const a=curveAt(model,rpm,psi);return a?a.hp:NaN;}
+function c9FlowAt(model,rpm,psi){const a=curveAt(model,rpm,psi);return a?a.gpm:NaN;}
+/* Bisection on an increasing function. */
+function c9Solve(f,target,lo,hi){let a=lo,b=hi,fa=f(a)-target,fb=f(b)-target;if(!isFinite(fa)||!isFinite(fb)||fa*fb>0)return NaN;for(let i=0;i<60;i++){const m=(a+b)/2,fm=f(m)-target;if(fa*fm<=0){b=m;fb=fm;}else{a=m;fa=fm;}}return (a+b)/2;}
+function c9SetAuto(C,k,v){const key=C9_VALKEY[k],m=C.m9[k];if(m.src==='user'||m.lock)return;v=v==null?'':String(v);const o=C[key]==null?'':String(C[key]);if(o===v)return;const a=+o,b=+v,same=o!==''&&v!==''&&isFinite(a)&&isFinite(b)&&Math.abs(a-b)<=Math.max(1e-9,5e-4*Math.max(Math.abs(a),Math.abs(b)));C[key]=v;if(!same)m.conf=false;}
+function c9Margin(C){return C.efp?30:15;}
+function c9PDec(u){return ({psi:1,bar:3,kPa:1,MPa:4,'kg/cm²':3,'m H2O':2,'ft H2O':1})[u]!=null?({psi:1,bar:3,kPa:1,MPa:4,'kg/cm²':3,'m H2O':2,'ft H2O':1})[u]:2;}
+/* pressures/flows in messages use the units selected in the calculator */
+function c9P(C,psi){return `${fx(ccFromPsi(psi,C.pUnit),c9PDec(C.pUnit))} ${C.pUnit}`;}
+function c9Q(C,gpm){return `${fx(ccFromGpm(gpm,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit}`;}
+function c9W(C,hp){return `${fx(ccFromHp(hp,C.hpUnit),1)} ${C.hpUnit}`;}
+function c9FlowDec(u){return ({GPM:1,LPM:1,'L/s':3,'m³/h':2,'m³/s':6})[u]!=null?({GPM:1,LPM:1,'L/s':3,'m³/h':2,'m³/s':6})[u]:2;}
+/* The solver: user-entered (or locked) values are inputs; every other value is derived.
+   Pump model, duty pressure and desired flow: any two define the third. If all three are entered,
+   the oldest unlocked entry becomes automatic again (most recent entries win). Speed defaults to
+   1800 RPM. An entered power is treated as the available driver power and can stand in for one input. */
+function c9Run(C){
+  c9Migrate(C);const M=C.m9,R={notes:[],warns:[],errs:[],dropped:null};
+  C.pUnit=C.pUnit||'psi';C.flowUnit=C.flowUnit||'GPM';C.hpUnit=C.hpUnit||'HP';
+  if(C.model&&!CURVE[C.model]){C.model='';M.model.src='auto';}
+  /* listing & PRV model */
+  c9SetAuto(C,'listing','UL-FM');if(!C.prvListing)C.prvListing='UL-FM';
+  c9SetAuto(C,'prvModel',ccPrvDefaultModel(C.prvListing));
+  /* speed */
+  c9SetAuto(C,'rpm','1800');const rpm=c9Num(C.rpm),rpmOk=rpm>=1&&rpm<=3000;
+  if(!rpmOk)R.errs.push('Enter a motor speed from 1 to 3000 RPM.');
+  C.rpmMode=C.rpmCustom||!['1500','1800'].includes(String(C.rpm))?'custom':String(C.rpm);
+  [['psi','Duty point pressure'],['flow','Desired flow'],['hp','Required power'],['prv','PRV lift pressure']].forEach(([k,l])=>{const v=C[C9_VALKEY[k]],m=M[k];if((m.src==='user'||m.lock)&&v!==''&&v!=null){const n=+v;if(!isFinite(n)||n<=0)R.errs.push(`<b>${l} must be a positive number.</b> The entered value is ignored until it is corrected.`);else if(k==='psi'&&ccToPsi(n,C.pUnit)>1000)R.errs.push('<b>Duty point pressure is above 1000 psi</b> — far outside any FLG pump data. The value is ignored.');}});
+  /* over-determination among model / pressure / flow */
+  const trio=['model','psi','flow'];let fixed=trio.filter(k=>c9Fixed(C,k));
+  const newest=Math.max(0,...trio.map(k=>M[k].t||0));
+  if(fixed.length===3&&newest>(C.solvedT||0)){
+    /* Most recent entry wins; a LOCKED value is never replaced. A locked desired flow is a minimum the pump must meet,
+       so a new duty pressure re-selects the pump; a locked pump keeps the pump and reports any shortfall in red. */
+    const latest=fixed.slice().sort((a,b)=>(M[b].t||0)-(M[a].t||0))[0];let pref;
+    if(latest==='psi')pref=M.flow.lock?['model']:(M.model.lock?[]:['flow','model']);
+    else if(latest==='model')pref=M.flow.lock?(M.psi.lock?[]:[]):['flow','psi'];
+    else pref=['psi','model'];
+    const drop=pref.find(k=>k!==latest&&fixed.includes(k)&&!M[k].lock);
+    if(drop){M[drop].src='auto';M[drop].conf=false;R.dropped=drop;C.lastDropped=drop;fixed=fixed.filter(k=>k!==drop);}else R.overdet=true;
+  }else if(fixed.length===3)R.overdet=true;
+  C.solvedT=Math.max(C.solvedT||0,newest);
+  const has=k=>fixed.includes(k),hpUser=c9Fixed(C,'hp'),hpAvail=hpUser?ccToHp(C.hp,C.hpUnit):NaN,prvUser=c9Fixed(C,'prv');
+  const toP=v=>ccToPsi(v,C.pUnit),fromP=v=>cleanNum(ccFromPsi(v,C.pUnit),c9PDec(C.pUnit)),fromQ=v=>cleanNum(ccFromGpm(v,C.flowUnit),c9FlowDec(C.flowUnit));
+  const noPrv=C.prvSize==='none'&&c9Fixed(C,'prvSize');
+  const liftFor=p=>prvUser?toP(C.prv):p+c9Margin(C);
+  let model=has('model')?C.model:'',psi=has('psi')?toP(C.psi):NaN,flow=has('flow')?ccToGpm(C.flow,C.flowUnit):NaN;
+  const models=Object.keys(CURVE);
+  if(rpmOk){
+    if(has('model')&&has('psi')){/* flow follows the curve */}
+    else if(has('model')&&has('flow')){
+      const p=ccPressureForFlow(model,rpm,flow);if(p!=null&&isFinite(p)&&p>=5)psi=p;else R.errs.push(`${model} cannot deliver ${fx(ccFromGpm(flow,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit} at ${fx(rpm,0)} RPM at any usable pressure — choose a larger pump or another speed.`);
+    }else if(has('psi')&&has('flow')){
+      const fit=models.map(m=>({m,q:c9FlowAt(m,rpm,psi)})).filter(x=>isFinite(x.q)&&x.q+Math.max(.06,.0006*flow)>=flow).sort((a,b)=>a.q-b.q);
+      if(fit.length)model=fit[0].m;else{const big=models.map(m=>({m,q:c9FlowAt(m,rpm,psi)})).sort((a,b)=>b.q-a.q)[0];model=big?big.m:'';R.errs.push(`<b>Flow will not be reached.</b> No single pump delivers ${fx(ccFromGpm(flow,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit} at ${c9P(C,psi)} and ${fx(rpm,0)} RPM. The largest pump (${model}) is shown — consider multiple pumps, a higher speed, or a lower pressure.`);}
+    }else if(has('model')&&isFinite(hpAvail)){
+      if(noPrv||!prvUser){const f=p=>c9PowerAt(model,rpm,noPrv?p:p+c9Margin(C)),p=c9Solve(f,hpAvail,5,400);if(!isFinite(p)&&f(400)<hpAvail)R.notes.push(`${fx(ccFromHp(hpAvail,C.hpUnit),1)} ${C.hpUnit} is more than ${model} needs anywhere up to 400 psi at ${fx(rpm,0)} RPM — enter the duty point pressure or desired flow.`);else if(isFinite(p)){psi=Math.floor(p*10+1e-9)/10;R.notes.push(`Duty pressure set to the highest pressure ${model} can hold with ${fx(ccFromHp(hpAvail,C.hpUnit),1)} ${C.hpUnit} at the ${noPrv?'duty point':'PRV lift'}.`);}else R.errs.push(`The entered power cannot drive ${model} at ${fx(rpm,0)} RPM even at 5 psi.`);}
+      else R.notes.push('Enter a duty point pressure or desired flow (an entered PRV lift pressure prevents solving pressure from power).');
+    }else if(has('psi')&&isFinite(hpAvail)){
+      const lift=noPrv?psi:liftFor(psi),ok=models.map(m=>({m,q:c9FlowAt(m,rpm,psi),w:c9PowerAt(m,rpm,lift)})).filter(x=>isFinite(x.w)&&x.w<=hpAvail+1e-9).sort((a,b)=>b.q-a.q);
+      if(ok.length){model=ok[0].m;R.notes.push(`${model} is the largest pump the entered ${fx(ccFromHp(hpAvail,C.hpUnit),1)} ${C.hpUnit} can drive at the ${noPrv?'duty point':'PRV lift'}.`);}else R.errs.push('No pump can be driven by the entered power at this pressure.');
+    }
+  }
+  /* write derived trio values */
+  if(!has('model'))c9SetAuto(C,'model',model||'');
+  if(!has('psi'))c9SetAuto(C,'psi',isFinite(psi)?fromP(psi):'');
+  model=C.model&&CURVE[C.model]?C.model:'';psi=C.psi!==''?toP(C.psi):NaN;
+  const cp=model&&rpmOk&&isFinite(psi)?curveAt(model,rpm,psi):null,qc=cp?cp.gpm:NaN;
+  if(!has('flow'))c9SetAuto(C,'flow',isFinite(qc)?fromQ(qc):'');
+  flow=C.flow!==''?ccToGpm(C.flow,C.flowUnit):NaN;
+  /* PRV lift */
+  if(!noPrv)c9SetAuto(C,'prv',isFinite(psi)?fromP(psi+c9Margin(C)):'');
+  const lift=noPrv?NaN:(C.prv!==''?toP(C.prv):NaN);
+  /* PRV size: rated capacity at the PRV set (lift) pressure must carry the full pump flow */
+  const qPrv=isFinite(qc)?qc:flow;
+  if(!c9Fixed(C,'prvSize')&&!(C.m9.prvSize.lock)){
+    let pick='';if(qPrv>0&&isFinite(lift)){const cands=PRV_SIZES.slice(1).map(size=>({size,cap:prvCapacityAt(lift,size)})).filter(x=>isFinite(x.cap));if(cands.length){const clear=cands.find(x=>qPrv/x.cap<.8-1e-9),meets=cands.find(x=>x.cap+1e-9>=qPrv);pick=(clear||meets||cands[cands.length-1]).size;}}
+    c9SetAuto(C,'prvSize',pick);
+  }
+  /* power: at the PRV lift (worst case: full relief) or the duty point when No PRV */
+  const wDuty=model&&rpmOk&&isFinite(psi)?c9PowerAt(model,rpm,psi):NaN,wLift=model&&rpmOk&&isFinite(lift)?c9PowerAt(model,rpm,lift):NaN,wReq=noPrv?wDuty:(isFinite(wLift)?wLift:wDuty);
+  c9SetAuto(C,'hp',isFinite(wReq)?cleanNum(ccFromHp(wReq,C.hpUnit),1):'');
+  Object.assign(R,{model,rpm,rpmOk,psi,flow,qc,lift,noPrv,wDuty,wLift,wReq,hpAvail:hpUser?ccToHp(C.hp,C.hpUnit):NaN,cp});
+  /* checks */
+  if(model&&isFinite(psi)){const hi=c9Hi(model);if(psi<100-1e-9||psi>hi+1e-9)R.warns.push(`<b>Outside FLG listings and approvals.</b> ${model} has a listed duty-pressure range of 100–${hi} psi. At ${c9P(C,psi)} this is a <b>non-listed pump application</b>; the curve values are extrapolated and need engineering/manufacturer review.`);}
+  if(cp&&cp.affinity&&model){const eq=psi/Math.pow(rpm/cp.base,2),hi=c9Hi(model);if(eq<100-1e-6||eq>hi+1e-6)R.warns.push(`<b>Extrapolated speed point.</b> At ${fx(rpm,0)} RPM, ${c9P(C,psi)} corresponds to ${fx(eq,1)} psi on the ${cp.base} RPM source curve — outside its 100–${hi} psi data. Treat the flow and power as estimates.`);}
+  if(cp&&cp.affinity)R.notes.push(`${fx(rpm,0)} RPM uses pump affinity laws from the ${cp.base} RPM source curve.`);
+  if(has('flow')&&has('model')&&isFinite(qc)&&qc+Math.max(.05,.002*flow)<flow)R.errs.push(`<b>Flow will not be reached with the selected pump.</b> ${model} delivers only ${fx(ccFromGpm(qc,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit} at ${c9P(C,psi)} and ${fx(rpm,0)} RPM — below the ${M.flow.lock?'locked':'entered'} desired flow of ${fx(ccFromGpm(flow,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit}.${M.model.lock?' The pump model is locked — unlock it to let the calculator select a pump that meets the flow.':' Choose a larger pump, a higher speed or a lower pressure.'}`);
+  else if(R.overdet&&has('flow')&&isFinite(qc)&&qc>flow+Math.max(.5,.005*flow))R.notes.push(`${model} delivers ${fx(ccFromGpm(qc,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit} at the duty point — more than the desired minimum of ${fx(ccFromGpm(flow,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit}.`);
+  if(isFinite(qc)&&isFinite(flow)&&has('flow')&&!has('model')&&qc>flow+.05)R.notes.push(`${model} is the smallest pump that meets the desired flow; on its curve it delivers ${fx(ccFromGpm(qc,C.flowUnit),c9FlowDec(C.flowUnit))} ${C.flowUnit} at the duty point.`);
+  if(!noPrv&&isFinite(lift)&&isFinite(psi)){
+    if(lift<=psi+1e-9)R.errs.push('The PRV lift (set) pressure must be above the duty point pressure.');
+    else if(lift<psi+c9Margin(C)-.05)R.warns.push(`PRV lift is only ${c9P(C,lift-psi)} above the duty point — less than the ${c9Margin(C)} psi default${C.efp?' for EFP systems':''}. Confirm the PRV will not open at the duty point.`);
+  }
+  const prvCap=!noPrv&&isFinite(lift)&&C.prvSize&&C.prvSize!=='none'?prvCapacityAt(lift,C.prvSize):NaN;R.prvCap=prvCap;R.qPrv=qPrv;
+  if(!noPrv&&isFinite(lift)&&(lift<5||lift>300))R.warns.push(`<b>PRV chart range exceeded.</b> The source table covers 5–300 psi set pressures; no rated capacity is available at ${c9P(C,lift)}.`);
+  if(!noPrv&&isFinite(prvCap)&&qPrv>0){const u=qPrv/prvCap;if(u>1)R.errs.push(`<b>The ${C.prvSize} in PRV is too small:</b> rated ${c9Q(C,prvCap)} at ${c9P(C,lift)} is below the pump flow of ${c9Q(C,qPrv)}.`);else if(u>=.8)R.warns.push(`<b>The ${C.prvSize} in PRV is close to its rating</b> (${fx(100*u,0)}% of ${c9Q(C,prvCap)}). Select the next larger size.`);}
+  if(!noPrv&&C.prvSize===PRV_SIZES[0])R.warns.push('<b>0.75 × 1 in PRV selected manually.</b> This smallest size is never auto-selected because these valves are troublesome in service.');
+  if(!noPrv&&C.prvModel==='740'&&C.prvListing==='UL-FM')R.errs.push('<b>740 Aquatrol is not FM-approved.</b> A UL-Listed & FM-Approved pump needs the 511 Apollo PRV (only model 511 has FM approval as of '+PRV_SOURCE_DATE+').');
+  if(!noPrv&&C.prvModel==='511'&&C.prvListing!=='UL-FM')R.notes.push('511 selected for a non-FM application. The 740 Aquatrol is preferred here and typically meets or exceeds the 511 ratings.');
+  if(isFinite(R.hpAvail)&&isFinite(wReq)&&R.hpAvail+.05<wReq)R.errs.push(`<b>Power exceeded.</b> ${model||'The pump'} needs ${fx(ccFromHp(wReq,C.hpUnit),1)} ${C.hpUnit} at the ${noPrv?'duty point':'PRV lift pressure'} — more than the ${M.hp.lock?'locked':'entered'} ${fx(ccFromHp(R.hpAvail,C.hpUnit),1)} ${C.hpUnit}. ${M.hp.lock?'Unlock the power, or':'Raise the available power, or'} reduce the duty/PRV pressure or pump size.`);
+  if(model&&!isFinite(psi)&&!R.errs.length)R.notes.push(`Enter the duty point pressure, a desired flow, or an available power for ${model} to complete the selection.`);
+  if(!model&&!R.errs.length)R.notes.push(isFinite(psi)?'Enter a desired flow, choose a pump model, or enter an available power to complete the selection.':(has('model')||has('flow')?'Enter the duty point pressure (or the other of pump model / desired flow) to complete the selection.':'Start with any two of pump model, duty point pressure and desired flow.'));
+  if(!R.dropped&&C.lastDropped&&M[C.lastDropped]&&M[C.lastDropped].src==='auto'&&!M[C.lastDropped].conf)R.dropped=C.lastDropped;
+  if(R.dropped)R.notes.push(`${C9_LABEL[R.dropped]} is now calculated automatically — pump model, duty pressure and desired flow were all entered, and any two define the third. Lock a value to keep it fixed.`);
+  return R;
+}
+function c9Fmt(C,k){const v=C[C9_VALKEY[k]];if(v===''||v==null)return '';if(C.m9[k].src==='user'){const n=+v;return isFinite(n)?String(+n.toFixed(k==='psi'||k==='prv'?Math.max(2,c9PDec(C.pUnit)+1):k==='rpm'?1:k==='flow'?Math.max(3,c9FlowDec(C.flowUnit)+1):3)):String(v);}const n=+v;if(!isFinite(n))return v;if(k==='flow')return cleanNum(n,c9FlowDec(C.flowUnit));if(k==='hp')return cleanNum(n,1);if(k==='psi'||k==='prv')return cleanNum(n,C.pUnit==='psi'?1:3);if(k==='rpm')return cleanNum(n,0);return v;}
+function c9Meta(C,k){
+  const m=C.m9[k],v=C[C9_VALKEY[k]],blank=v===''||v==null,auto=m.src==='auto';
+  const src=m.lock?`<span class="c9-src lock">Locked</span>`:auto?(blank?'':`<span class="c9-src auto${m.conf?' ok':''}">${m.conf?'Auto · confirmed':'Auto-filled'}</span>`):`<span class="c9-src user">Entered</span>`;
+  const conf=auto&&!blank&&!m.lock?`<label title="Accept this automatic value"><input type="checkbox" data-c9conf="${k}" ${m.conf?'checked':''}> Confirm</label>`:'';
+  const revert=!auto&&!m.lock?`<button type="button" class="c9-revert" data-c9revert="${k}" title="Let the calculator fill this value again">↺ Use auto</button>`:'';
+  const lock=`<label title="${blank&&!m.lock?'Enter or calculate a value before locking it':'Keep this value fixed — it will not be auto-replaced by other inputs'}"><input type="checkbox" data-c9lock="${k}" ${m.lock?'checked':''} ${blank&&!m.lock?'disabled':''}> Lock</label>`;
+  return `<div class="c9-meta noprint">${src}${conf}${revert}${lock}</div>`;
+}
+/* orange = automatic and not yet confirmed; green = entered by you, confirmed, or locked */
+function c9Cls(C,k){const m=C.m9[k],v=C[C9_VALKEY[k]];if(v===''||v==null)return '';return m.src==='auto'&&!m.conf&&!m.lock?' needs-confirm':' c9-ok';}
+function c9Field(C,k,label,control,conv,extra){return `<div class="field${extra?' '+extra:''}${C.m9[k].lock?' c9-locked':''}" data-c9f="${k}"><div class="flabel">${label}</div><div class="row">${control}</div>${c9Meta(C,k)}<div class="conv">${conv||''}</div></div>`;}
+function renderCurve(){
+  const C=CURV();const R=c9Run(C);
+  const pList=Object.keys(CC_PRESSURE),fList=Object.keys(CC_FLOW),wList=Object.keys(CC_POWER);
+  const num=(k,ph)=>`<input class="curve-input${c9Cls(C,k)}" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" data-c9="${k}" value="${esc(c9Fmt(C,k))}" placeholder="${ph}">`;
+  const unit=(kind,key,list)=>`<select class="unit" data-c9unit="${kind}" aria-label="${kind} unit">${opts(list,C[key])}</select>`;
+  const sel=(k,list,v)=>`<select class="${c9Cls(C,k).trim()}" data-c9="${k}">${opts(list,v)}</select>`;
+  const model=R.model,noPrv=R.noPrv;
+  const autoModelText=C.m9.model.src==='auto'?(C.model?`Auto — ${C.model} (${C.m9.model.conf?'confirmed':'calculated'})`:'Auto — enter duty pressure & flow (or power)'):'Auto — calculate from duty pressure & flow';
+  const modelSel=`<select class="curve-pump-model${c9Cls(C,'model')}" data-c9="model">${opts([{v:'',t:autoModelText}].concat(Object.keys(CURVE).map(m=>({v:m,t:`${m} (${pumpFlowLabel(m)})`}))),C.m9.model.src==='auto'?'':C.model)}</select>`;
+  const rpmMode=C.m9.rpm.src==='auto'?'1800':(C.rpmCustom||!['1500','1800'].includes(String(C.rpm))?'custom':String(C.rpm));
+  const rpmCtl=`<select class="${c9Cls(C,'rpm').trim()}" data-c9="rpmMode">${opts([{v:'1800',t:'1800 RPM'},{v:'1500',t:'1500 RPM'},{v:'custom',t:'Custom RPM…'}],rpmMode)}</select>${rpmMode==='custom'?num('rpm','1–3000'):''}`;
+  const listingCtl=sel('listing',[{v:'non',t:'Non-Listed'},{v:'ul',t:'UL-Listed'},{v:'UL-FM',t:'UL-Listed & FM-Approved'}],C.prvListing);
+  const prvModelCtl=`<select class="${c9Cls(C,'prvModel').trim()}" data-c9="prvModel" ${noPrv?'disabled':''}>${opts([{v:'511',t:'511 — Apollo (FM-approved)'},{v:'740',t:'740 — Aquatrol (preferred for non-FM)'}],C.prvModel)}</select>`;
+  const prvSizeMode=C.m9.prvSize.src==='auto'&&!C.m9.prvSize.lock?'auto':(C.prvSize||'auto');
+  const prvSizeCtl=`<select class="prv-select${c9Cls(C,'prvSize')}" data-c9="prvSize">${opts([{v:'auto',t:C.m9.prvSize.src==='auto'&&C.prvSize?`Auto — ${C.prvSize} in`:'Auto — enter pressure & flow'},{v:'none',t:'No PRV — power from the duty point'}].concat(PRV_SIZES.map(x=>({v:x,t:x+' in'}))),prvSizeMode)}</select>`;
+  const capTxt=noPrv?'Not applicable — No PRV.':(isFinite(R.prvCap)?`Rated ${c9Q(C,R.prvCap)} at the ${c9P(C,R.lift)} set pressure (pump flow ${c9Q(C,R.qPrv)}). 0.75 × 1 in is never auto-selected.`:'Sized from the pump flow at the PRV set pressure.');
+  const powerBasis=noPrv?'duty point (No PRV)':'PRV lift pressure';
+  const hpConv=C.hp!==''?ccOppositePower(C.hp,C.hpUnit):'';
+  const statusBox=(cls,list)=>list.map(t=>`<div class="${cls} curve-summary">${t}</div>`).join('');
+  const how=`<div class="c9-how"><b>How it works:</b> enter any two of <b>pump model</b>, <b>duty point pressure</b> and <b>desired flow</b> (or pump model or duty pressure plus an available <b>power</b>); everything else fills in automatically in <span class="c9-src auto">orange</span> until you tick <b>Confirm</b>. Every value can be typed over. Tick <b>Lock</b> to keep a value from being replaced when other inputs change; <b>↺ Use auto</b> hands a typed value back to the calculator.</div>`;
+  const fields=`<div class="c9-grid">
+    ${c9Field(C,'model','Pump model',modelSel,model?`${esc(model)}: ${esc(pumpFlowLabel(model))}`:'Auto picks the smallest pump that delivers the desired flow at the duty pressure.','c9-wide')}
+    ${c9Field(C,'listing','Pump listing / approval',listingCtl,'Sets the default PRV model (UL & FM → 511; Non-Listed/UL → 740).')}
+    ${c9Field(C,'psi','Duty point pressure',num('psi','pressure')+unit('pressure','pUnit',pList),ccOppositePressure(C.psi,C.pUnit)||'Required pump discharge pressure.')}
+    ${c9Field(C,'flow','Desired flow rate',num('flow','flow')+unit('flow','flowUnit',fList),(ccOppositeFlow(C.flow,C.flowUnit)||'Per pump.')+(isFinite(R.qc)&&C.m9.flow.src==='user'?` · Pump curve: ${fx(ccFromGpm(R.qc,C.flowUnit),c9FlowDec(C.flowUnit))} ${esc(C.flowUnit)}`:''))}
+    ${c9Field(C,'rpm','Motor speed',rpmCtl,R.rpmOk?(+C.rpm===1500||+C.rpm===1800?'Source curve speed.':'Affinity-law extrapolation from the nearest source speed.'):'Enter a speed from 1 to 3000 RPM.')}
+    <div class="field c9-full"><label class="c9-efp"><input type="checkbox" data-c9efp="1" ${C.efp?'checked':''}><span><b>System has EFPs</b> — default the PRV lift to <b>30 psi</b> above the duty point instead of 15 psi.</span></label></div>
+    ${c9Field(C,'prv','PRV lift (set) pressure',num('prv','pressure').replace('<input ',`<input ${noPrv?'disabled ':''}`)+unit('pressure','pUnit',pList),noPrv?'No PRV selected.':(ccOppositePressure(C.prv,C.pUnit)||`Defaults to duty point + ${c9Margin(C)} psi.`))}
+    ${c9Field(C,'prvModel','PRV model',prvModelCtl,'Only model 511 has FM approval as of '+PRV_SOURCE_DATE+'.')}
+    ${c9Field(C,'prvSize','PRV size',prvSizeCtl,capTxt)}
+    <div class="field c9-full"><div class="c9-disc"><b>PRV set pressure:</b> the lift defaults to <b>${c9Margin(C)} psi over the duty point</b>${C.efp?' (EFP setting)':''}. Some systems need more margin — for example systems with EFPs. Verify the set pressure against the system design.</div></div>
+    ${c9Field(C,'hp',`Required power <span class="hint">(at ${powerBasis})</span>`,num('hp','power')+unit('power','hpUnit',wList),(hpConv?hpConv+' · ':'')+(C.m9.hp.src==='user'?`Entered as the available driver power${isFinite(R.wReq)?` — required ${fx(ccFromHp(R.wReq,C.hpUnit),1)} ${esc(C.hpUnit)}`:''}.`:'Pump shaft power, one decimal. Type a value to use it as the available driver power.'),'c9-wide')}
+    <div class="field c9-full"><div class="c9-disc"><b>Motor / engine selection is not finalized here.</b> The value above is the pump power requirement only. Choosing the exact motor or engine needs more information — site elevation, ambient temperature, motor/engine derating and service factor, enclosure, voltage/frequency or fuel, starting method, and the exact motor/engine options available.</div></div>
+  </div>`;
+  const status=`<div class="curve-live-status" data-c9-part="status">${statusBox('errbox',R.errs)}${statusBox('warnbox',R.warns)}${statusBox('okbox',R.notes)}</div>`;
+  const kp=(k,v,s)=>`<div class="kpi"><div class="k">${k}</div><div class="v">${v}</div>${s?`<div class="s">${s}</div>`:''}</div>`;
+  const summary=`<div class="c9-summary" data-c9-part="summary">${kp('Pump',model?esc(model):'—',model?`${fx(R.rpm,0)} RPM · ${esc(({non:'Non-Listed',ul:'UL-Listed','UL-FM':'UL & FM'})[C.prvListing]||'')}`:'')}${kp('Duty point',isFinite(R.psi)?`${fx(ccFromPsi(R.psi,C.pUnit),c9PDec(C.pUnit))} ${esc(C.pUnit)}`:'—',isFinite(R.qc)?`${fx(ccFromGpm(R.qc,C.flowUnit),c9FlowDec(C.flowUnit))} ${esc(C.flowUnit)} on curve`:'')}${kp('PRV',noPrv?'No PRV':(C.prvSize?`${esc(C.prvModel)} · ${esc(C.prvSize)} in`:'—'),noPrv?'':(isFinite(R.lift)?`set ${fx(ccFromPsi(R.lift,C.pUnit),c9PDec(C.pUnit))} ${esc(C.pUnit)}`:''))}${kp('Required power',isFinite(R.wReq)?`${fx(ccFromHp(R.wReq,C.hpUnit),1)} ${esc(C.hpUnit)}`:'—',isFinite(R.wReq)?`at ${powerBasis}`:'')}</div>`;
+  /* comparison table: every pump at the current duty point */
+  const qDem=C.m9.flow.src==='user'&&isFinite(R.flow)?R.flow:NaN;
+  const rows=Object.keys(CURVE).map(m=>{const d=R.rpmOk&&isFinite(R.psi)?curveAt(m,R.rpm,R.psi):null,l=!noPrv&&R.rpmOk&&isFinite(R.lift)?curveAt(m,R.rpm,R.lift):null,hi=c9Hi(m),outside=isFinite(R.psi)&&(R.psi<100-1e-9||R.psi>hi+1e-9);
+    const fOk=isFinite(qDem)&&d?d.gpm+.05>=qDem:null,wOk=x=>isFinite(R.hpAvail)&&x?x.hp<=R.hpAvail+1e-9:null,c=v=>v===true?'curve-hit':v===false?'curve-warn':'';
+    return `<tr data-curve-model="${m}" class="${m===model?'c9-selrow':''}${fOk===false?' c9-dim':''}"><td class="l"><b>${m}</b>${m===model?' <span class="tag">selected</span>':''}${m==='FP4-350'?' <span class="tag">max 232 psi</span>':''}${outside?' <span class="tag" style="background:var(--orgbg);color:var(--orgfg)">outside approval range</span>':''}${d&&d.affinity?' <span class="tag">affinity-law RPM</span>':''}</td><td class="${c(fOk)}">${d?fx(ccFromGpm(d.gpm,C.flowUnit),c9FlowDec(C.flowUnit)):'—'}</td><td class="${c(wOk(d))}">${d?fx(ccFromHp(d.hp,C.hpUnit),1):'—'}</td><td class="${c(wOk(l))}">${noPrv?'No PRV':(l?fx(ccFromHp(l.hp,C.hpUnit),1):'—')}</td><td class="noprint"><button class="btn sm${m===model?' primary':''}" data-act="c9pick" data-m="${m}" ${m===model&&C.m9.model.src==='user'?'disabled':''}>${m===model&&C.m9.model.src==='user'?'Selected':'Select'}</button></td></tr>`;}).join('');
+  const table=`<div class="card tw" data-c9-part="table"><h3>All pumps at ${isFinite(R.psi)?fx(ccFromPsi(R.psi,C.pUnit),c9PDec(C.pUnit))+' '+esc(C.pUnit):'the duty point'} · ${R.rpmOk?fx(R.rpm,0):'—'} RPM</h3><table class="t curve-table"><tr><th>Pump</th><th>Flow at duty (${esc(C.flowUnit)})</th><th>Power at duty (${esc(C.hpUnit)})</th><th>Power at PRV lift (${esc(C.hpUnit)})</th><th class="noprint"></th></tr>${rows}</table><p class="lead" style="margin:8px 0 0">The selected pump is outlined. Green/orange flow cells compare each curve with an <b>entered</b> desired flow; green/orange power cells compare with an <b>entered</b> available power. “Select” makes that pump the entered pump model.</p></div>`;
+  const cv=C.conv,pcts=[{v:'0.01',t:'1%'},{v:'0.02',t:'2%'},{v:'0.03',t:'3%'},{v:'0.06',t:'6%'}],cin=(k,ph,w)=>`<input type="number" inputmode="decimal" step="any" data-ccv="${k}" value="${esc(cv[k])}" placeholder="${ph||''}" style="width:${w||120}px">`,csel=(k,list)=>`<select data-ccv="${k}">${opts(list,cv[k])}</select>`,cost=+cv.cost,price=+cv.price,mg=+cv.margin;
+  const raw=Object.keys(CURVE).map(m=>`<tr><td class="l">${m}</td>${CURVE[m].map((v,i)=>`<td>${fx(v,i%2?1:0)}</td>`).join('')}</tr>`).join('');
+  const prvTable=`<details class="card tw curve-data"><summary>PRV flow-rate source table (all ${PRV_FLOW_DATA.length} rows) · ${PRV_SOURCE_SHEET} — as of ${PRV_SOURCE_DATE}</summary><p class="lead">Exact values extracted from ${PRV_SOURCE_FILE}. Capacities are for model 511 Apollo valves; model 740 Aquatrol valves typically meet or exceed these ratings. Intermediate set pressures are linearly interpolated. FM-approval statement current as of ${PRV_SOURCE_DATE}.</p><div class="prv-source-table"><table class="t"><thead><tr><th rowspan="2">Set Pressure (psi)</th><th colspan="${PRV_SIZES.length}">Flow Rate (GPM) by PRV size</th></tr><tr>${PRV_SIZES.map(x=>`<th>${esc(x)} in</th>`).join('')}</tr></thead><tbody>${prvSourceRows()}</tbody></table></div></details>`;
+  const exNote=C.ex?`<div class="okbox"><b>Example values loaded.</b> Type over them to use your own project values.</div>`:'';
+  return exNote+`<div class="datebanner">📅 <span><b>Pump curve data as of ${CURVE_DATE}</b> — from ${CURVE_FILE}. Check that this is still current before quoting.</span></div>`+
+    head('Curve Calculator','Find the pump, PRV and power for a duty point. Custom speeds from 1–3000 RPM use pump affinity-law extrapolation; the opposite unit system is shown under each entry.')+
+    `<div class="card c9-root">${how}${fields}${summary}${status}<div class="btns noprint" style="margin-top:10px"><button class="btn" data-act="c9reset">↺ Reset Curve Calculator</button></div></div>${table}`+
+    `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr))"><div class="card"><h3>Foam solution / concentrate</h3><div class="row btns">Solution ${cin('sol','flow',100)} × ${csel('pct',pcts)} = <b data-ccvout="sol">${cv.sol!==''?fx(+cv.sol*+cv.pct,1):'—'}</b> concentrate</div><div class="row btns" style="margin-top:8px">Concentrate ${cin('conc','flow',100)} ÷ ${csel('pct2',pcts)} = <b data-ccvout="conc">${cv.conc!==''?fx(+cv.conc/+cv.pct2,1):'—'}</b> solution</div></div><div class="card"><h3>Pricing margin</h3><div class="row btns">Cost $${cin('cost','cost',100)} · Price $${cin('price','price',100)} → margin <b data-ccvout="margin-now">${cost>0&&price>0?fx(100*(price-cost)/price,1)+'%':'—'}</b></div><div class="row btns" style="margin-top:8px">Target margin ${cin('margin','%',70)} % → price <b data-ccvout="margin-target">${cost>0&&mg>0&&mg<100?'$'+Math.round(cost/(1-mg/100)).toLocaleString():'—'}</b></div></div></div>`+
+    `<details class="card tw curve-data"><summary>Curve data points (collapsed by default) · as of ${CURVE_DATE}</summary><table class="t"><tr><th rowspan="2">Model</th><th colspan="4">1500 RPM</th><th colspan="4">1800 RPM</th></tr><tr><th>GPM @100</th><th>HP @100</th><th>GPM @ upper</th><th>HP @ upper</th><th>GPM @100</th><th>HP @100</th><th>GPM @ upper</th><th>HP @ upper</th></tr>${raw}</table><p class="hint">Upper source point is 261 psi except FP4-350, which is 232 psi.</p></details>${prvTable}`;
+}
+R_.curve=renderCurve;
+
+/* live refresh while typing: update everything except the field being typed in */
+function c9Refresh(){render(true);}
+let C9_T=null;
+document.addEventListener('input',e=>{
+  const t=e.target;if(!t.dataset||t.dataset.c9===undefined||t.tagName!=='INPUT')return;e.stopImmediatePropagation();
+  const C=CURV();c9Migrate(C);const k=t.dataset.c9,key=C9_VALKEY[k];C.ex=false;
+  const v9=String(t.value).trim().replace(/\s+/g,'').replace(',','.');const bad=v9!==''&&!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(v9);t.classList.toggle('c9-bad',bad);t.title=bad?'Enter a number (for example 150 or 12.5)':'';if(bad)return;
+  C[key]=v9;const m=C.m9[k];if(v9===''){m.lock=false;m.src='auto';m.conf=false;}else{m.src='user';m.t=Date.now();if(C.lastDropped===k)C.lastDropped=null;}
+  clearTimeout(C9_T);C9_T=setTimeout(()=>{c9Refresh();save();},60);
+},true);
+document.addEventListener('change',e=>{
+  const t=e.target;if(!t.dataset)return;const C=CURV();
+  if(t.dataset.c9!==undefined&&t.tagName==='SELECT'){
+    e.stopImmediatePropagation();c9Migrate(C);C.ex=false;const k=t.dataset.c9;
+    if(k==='rpmMode'){const m=C.m9.rpm;m.src='user';m.t=Date.now();if(t.value==='custom'){C.rpmCustom=true;setTimeout(()=>{const i=document.querySelector('input[data-c9="rpm"]');if(i){i.focus();try{i.select();}catch(er){}}},30);}else{C.rpmCustom=false;C.rpm=t.value;}}
+    else if(k==='model'){const m=C.m9.model;if(!t.value){m.src='auto';m.conf=false;m.lock=false;C.model='';}else{C.model=t.value;m.src='user';m.t=Date.now();if(C.lastDropped==='model')C.lastDropped=null;}}
+    else if(k==='prvSize'){const m=C.m9.prvSize;if(t.value==='auto'){m.src='auto';m.conf=false;m.lock=false;C.prvSize='';}else{C.prvSize=t.value;m.src='user';m.t=Date.now();}}
+    else{const key=C9_VALKEY[k];C[key]=t.value;C.m9[k].src='user';C.m9[k].t=Date.now();}
+    save();render9Soon();return;
+  }
+  if(t.dataset.c9unit){e.stopImmediatePropagation();const kind=t.dataset.c9unit,nu=t.value;
+    if(kind==='pressure'){const old=C.pUnit;['psi','prv'].forEach(k=>{if(C[k]!==''&&isFinite(+C[k]))C[k]=String(+ccFromPsi(ccToPsi(C[k],old),nu).toPrecision(12));});C.pUnit=nu;}
+    else if(kind==='flow'){if(C.flow!==''&&isFinite(+C.flow))C.flow=String(+ccFromGpm(ccToGpm(C.flow,C.flowUnit),nu).toPrecision(12));C.flowUnit=nu;}
+    else if(kind==='power'){if(C.hp!==''&&isFinite(+C.hp))C.hp=String(+ccFromHp(ccToHp(C.hp,C.hpUnit),nu).toPrecision(12));C.hpUnit=nu;}
+    save();render(true);return;}
+  if(t.dataset.c9conf){e.stopImmediatePropagation();c9Migrate(C);C.m9[t.dataset.c9conf].conf=t.checked;save();render(true);return;}
+  if(t.dataset.c9lock){e.stopImmediatePropagation();c9Migrate(C);const m=C.m9[t.dataset.c9lock];m.lock=t.checked;if(t.checked){m.conf=true;}else if(m.src==='auto'){m.conf=false;}save();render(true);toast(t.checked?`${C9_LABEL[t.dataset.c9lock]} locked — other inputs will not replace it.`:`${C9_LABEL[t.dataset.c9lock]} unlocked.`);return;}
+  if(t.dataset.c9efp){e.stopImmediatePropagation();C.efp=t.checked;save();render(true);return;}
+  if(t.dataset.c9!==undefined&&t.tagName==='INPUT'){e.stopImmediatePropagation();render9Soon();return;}
+},true);
+document.addEventListener('click',e=>{
+  const r=e.target.closest&&e.target.closest('[data-c9revert],[data-act="c9reset"]');if(!r)return;e.preventDefault();e.stopImmediatePropagation();const C=CURV();c9Migrate(C);
+  if(r.dataset.c9revert){const k=r.dataset.c9revert,m=C.m9[k];m.src='auto';m.conf=false;if(k==='model')C.model='';if(k==='prvSize')C.prvSize='';save();render(true);return;}
+  if(!confirm('Reset every Curve Calculator entry (pump, pressures, flow, PRV, power) to blank/automatic?'))return;
+  const fresh=newCurve();fresh.pUnit=C.pUnit;fresh.flowUnit=C.flowUnit;fresh.hpUnit=C.hpUnit;fresh.conv=C.conv;P.curve=fresh;c9Migrate(fresh);save();render(true);toast('Curve Calculator reset.');
+},true);
+/* table: Select a pump row as the entered pump model */
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-act="c9pick"]');if(!b)return;e.preventDefault();const C=CURV();c9Migrate(C);C.ex=false;const same=C.model===b.dataset.m;C.model=b.dataset.m;C.m9.model.src='user';if(!same)C.m9.model.t=Date.now();if(C.lastDropped==='model')C.lastDropped=null;save();render(true);toast(b.dataset.m+' selected as the pump model.');},true);
+/* foam solution / pricing helpers: live outputs without re-rendering the field being typed in */
+document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||t.dataset.ccv===undefined)return;CURV().conv[t.dataset.ccv]=t.value;render(true);save();});
+document.addEventListener('change',e=>{const t=e.target;if(!t.dataset||t.dataset.ccv===undefined)return;CURV().conv[t.dataset.ccv]=t.value;save();render9Soon();});
+
+/* ================= FLG CURVE CALCULATOR — APP SHELL ================= */
+const APP_NAME='FLG Curve Calculator',APP_RELEASE='1.1',APP_RELEASE_DATE='2026-11-20',APP_PASSWORD='1991',APP_FILE_KIND='flg-curve-calculator';
+
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const fmtDate=iso=>{const m=String(iso||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?`${+m[2]}/${+m[3]}/${m[1]}`:String(iso||'');};
+function safeName(s){return String(s||'').replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,' ').trim();}
+
+/* ---------- curve state ---------- */
+function newCurve(units){const c={model:'',psi:'',pUnit:'psi',prv:'',hp:'',hpUnit:'HP',flow:'',flowUnit:'GPM',rpm:'1800',rpmMode:'1800',prvListing:'UL-FM',prvModel:'511',prvSize:'',efp:false,conv:{sol:'',pct:'0.03',conc:'',pct2:'0.03',cost:'',price:'',margin:''}};if((units||(typeof P!=='undefined'&&P&&P.settings&&P.settings.units))==='metric')convertCurveUnits(c,'imperial','metric');return c9Migrate(c);}
+/* Example: FP1.5-50 at 175 psi, 1800 rpm, 71 gpm of 3 % concentrate */
+function exampleCurve(units){const c=newCurve('imperial');Object.assign(c,{model:'FP1.5-50',psi:'175',ex:true});c.m9.model.src='user';c.m9.model.t=1;c.m9.psi.src='user';c.m9.psi.t=2;Object.assign(c.conv,{conc:'71',pct2:'0.03'});if(units==='metric')convertCurveUnits(c,'imperial','metric');return c;}
+function newProject(){return {kind:APP_FILE_KIND,v:+APP_RELEASE.replace('.',''),settings:{units:'imperial',developerFlagsEnabled:false},developerUpdateFlags:newDeveloperUpdateFlags(),curve:newCurve('imperial')};}
+function cleanCurve(c){const n=newCurve('imperial');c=c&&typeof c==='object'?c:{};
+  ['psi','prv','hp','flow','rpm'].forEach(k=>{const v=c[k];c[k]=v===''||v==null?'':(isFinite(+v)?String(v):'');});
+  if(!CC_PRESSURE[c.pUnit])c.pUnit=n.pUnit;if(!CC_FLOW[c.flowUnit])c.flowUnit=n.flowUnit;if(!CC_POWER[c.hpUnit])c.hpUnit=n.hpUnit;
+  if(c.model&&!CURVE[c.model])c.model='';if(!['non','ul','UL-FM'].includes(c.prvListing))c.prvListing='UL-FM';if(!['511','740'].includes(String(c.prvModel)))c.prvModel=ccPrvDefaultModel(c.prvListing);
+  if(c.prvSize&&c.prvSize!=='none'&&!PRV_SIZES.includes(c.prvSize))c.prvSize='';c.efp=!!c.efp;return c;}
+function loadLocalSettings(){try{const o=JSON.parse(localStorage.getItem('flg_curve_settings')||'null');if(o&&typeof o==='object')return Object.assign(newProject().settings,o);}catch(e){}return null;}
+function storeLocalSettings(){try{localStorage.setItem('flg_curve_settings',JSON.stringify(P.settings));}catch(e){}}
+function migrate(p){const b=newProject();p=p&&typeof p==='object'?p:{};const out={kind:APP_FILE_KIND,v:b.v,settings:Object.assign(b.settings,p.settings||{}),developerUpdateFlags:normalizeDeveloperUpdateFlags(p.developerUpdateFlags),curve:Object.assign(newCurve('imperial'),cleanCurve(p.curve))};
+  if(out.settings.units!=='metric')out.settings.units='imperial';out.curve.conv=Object.assign(newCurve('imperial').conv,(p.curve&&p.curve.conv)||{});if(!(p.curve&&p.curve.m9))delete out.curve.m9;c9Migrate(out.curve);return out;}
+let P=newProject(),cur='curve',SETTINGS_RETURN='curve',ADV_UNLOCKED=false;
+function CURV(){return P.curve;}
+
+
+/* ---------- render ---------- */
+/* In-place update: the existing elements are kept and only what changed is patched, so the field being
+   typed in, the caret, an open dropdown, the on-screen keyboard and the element a tap/Tab is moving to are
+   never replaced. Values of the focused control and the open/closed state of <details> are left alone. */
+function morphAttrs(a,b){
+  for(const at of [...a.attributes]){if(!b.hasAttribute(at.name)&&!(a.tagName==='DETAILS'&&at.name==='open'))a.removeAttribute(at.name);}
+  for(const at of [...b.attributes]){if(a.tagName==='DETAILS'&&at.name==='open')continue;if(a.getAttribute(at.name)!==at.value)a.setAttribute(at.name,at.value);}
+}
+function morph(a,b){
+  if(a.nodeType!==b.nodeType||a.nodeName!==b.nodeName||(a.nodeType===1&&(a.getAttribute('data-c9f')||'')!==(b.getAttribute('data-c9f')||''))){a.replaceWith(b);return;}
+  if(a.nodeType===3||a.nodeType===8){if(a.nodeValue!==b.nodeValue)a.nodeValue=b.nodeValue;return;}
+  if(a.nodeType!==1)return;
+  morphAttrs(a,b);
+  const focused=a===document.activeElement;
+  if(a.tagName==='INPUT'){if(a.type==='checkbox'||a.type==='radio'){const c=b.hasAttribute('checked');if(a.checked!==c)a.checked=c;}else if(!focused){const v=b.getAttribute('value')||'';if(a.value!==v)a.value=v;}return;}
+  if(a.tagName==='TEXTAREA'){if(!focused&&a.value!==b.value)a.value=b.value;return;}
+  const ac=[...a.childNodes],bc=[...b.childNodes];
+  for(let i=0;i<bc.length;i++){if(i<ac.length)morph(ac[i],bc[i]);else a.appendChild(bc[i]);}
+  for(let i=bc.length;i<ac.length;i++)ac[i].remove();
+  if(a.tagName==='SELECT'){const o=[...b.options].find(x=>x.hasAttribute('selected'))||b.options[0];if(o&&a.value!==o.value)a.value=o.value;}
+}
+let RENDERING=false;
+function render(keepScroll){
+  if(RENDERING)return;RENDERING=true;
+  try{
+    const c=document.getElementById('content'),st=c.scrollTop,page=cur==='settings'?'settings':'curve',html=`<div class="sec wide" data-page="${page}">${page==='settings'?R_.settings():R_.curve()}</div>`;
+    const old=c.firstElementChild;
+    if(keepScroll&&old&&old.getAttribute('data-page')===page){const t=document.createElement('div');t.innerHTML=html;morph(old,t.firstElementChild);c.scrollTop=st;}
+    else{c.innerHTML=html;c.scrollTop=keepScroll?st:0;}
+    if(HIST.edit&&!document.contains(HIST.edit.el))endHistoryEdit(HIST.edit.el);
+    document.body.classList.toggle('on-settings',cur==='settings');updUndoBtns();
+  }finally{RENDERING=false;}
+}
+function go(id){if(id==='settings'&&cur!=='settings')SETTINGS_RETURN=cur;cur=id==='settings'?'settings':'curve';closeFileMenu();render();}
+
+/* ---------- autosave (IndexedDB, falls back to localStorage) ---------- */
+const DB={db:null,
+  open(){return new Promise(res=>{try{const r=indexedDB.open('flgCurveCalculator',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>{this.db=r.result;res();};r.onerror=()=>res();}catch(e){res();}});},
+  get(k){return new Promise(res=>{if(!this.db){try{res(JSON.parse(localStorage.getItem('flgcurve_'+k)));}catch(e){res(null);}return;}try{const t=this.db.transaction('kv').objectStore('kv').get(k);t.onsuccess=()=>res(t.result);t.onerror=()=>res(null);}catch(e){res(null);}});},
+  set(k,v){if(!this.db){try{localStorage.setItem('flgcurve_'+k,JSON.stringify(v));}catch(e){}return;}try{this.db.transaction('kv','readwrite').objectStore('kv').put(v,k);}catch(e){}}};
+let saveT=null,lastAuto=null,RECOVER_KEPT=false;
+function curveIsBlank(c){return !c||(!c.model&&(c.psi===''||c.psi==null)&&(c.flow===''||c.flow==null)&&(c.hp===''||c.hp==null));}
+function save(){storeLocalSettings();if(!RECOVER_KEPT){RECOVER_KEPT=true;if(lastAuto&&lastAuto.p&&!curveIsBlank(lastAuto.p.curve))DB.set('recover',lastAuto);}clearTimeout(saveT);saveT=setTimeout(()=>DB.set('autosave',{t:Date.now(),p:JSON.parse(JSON.stringify(P))}),400);histSoon();}
+
+/* ---------- undo / redo ---------- */
+const HIST={past:[],future:[],present:null,t:null,edit:null,max:100};
+/* snapshots are taken of the fully solved state, so a later re-draw never creates a phantom undo step */
+function snap(){try{c9Run(P.curve);}catch(e){}return JSON.stringify(P);}
+function histPending(){return !!HIST.t||!!(HIST.edit&&HIST.edit.dirty);}
+function updUndoBtns(){document.querySelectorAll('[data-act="undo"]').forEach(u=>u.disabled=!HIST.past.length&&!histPending());document.querySelectorAll('[data-act="redo"]').forEach(r=>r.disabled=!HIST.future.length);}
+function histCommit(){clearTimeout(HIST.t);HIST.t=null;const sn=snap();if(sn!==HIST.present){if(HIST.present!=null){HIST.past.push(HIST.present);if(HIST.past.length>HIST.max)HIST.past.shift();}HIST.present=sn;HIST.future=[];}updUndoBtns();}
+function histSoon(){if(HIST.present==null)return;if(HIST.edit){HIST.edit.dirty=snap()!==HIST.edit.before;updUndoBtns();return;}clearTimeout(HIST.t);HIST.t=setTimeout(histCommit,450);updUndoBtns();}
+function historyEditControl(t){if(!t||t.disabled||t.readOnly)return false;if(t.tagName==='TEXTAREA')return true;if(t.tagName!=='INPUT')return false;return !['checkbox','radio','range','file','button','submit','reset','color'].includes((t.type||'text').toLowerCase())&&t.id!=='codejump';}
+function beginHistoryEdit(t){if(!historyEditControl(t)||HIST.present==null)return;if(HIST.edit&&HIST.edit.el===t)return;if(HIST.edit)endHistoryEdit(HIST.edit.el);if(HIST.t)histCommit();HIST.edit={el:t,before:HIST.present,dirty:false};}
+function endHistoryEdit(t){if(!HIST.edit||t&&HIST.edit.el!==t)return;const ed=HIST.edit;HIST.edit=null;if(ed.dirty||snap()!==ed.before)histCommit();else updUndoBtns();}
+document.addEventListener('focusin',e=>beginHistoryEdit(e.target));
+document.addEventListener('focusout',e=>endHistoryEdit(e.target));
+function histReset(){clearTimeout(HIST.t);HIST.t=null;HIST.edit=null;HIST.past=[];HIST.future=[];HIST.present=snap();updUndoBtns();}
+function histRestore(){HIST.edit=null;P=JSON.parse(HIST.present);clearTimeout(saveT);saveT=setTimeout(()=>DB.set('autosave',{t:Date.now(),p:JSON.parse(JSON.stringify(P))}),400);render(true);updUndoBtns();}
+function undo(){if(HIST.edit&&snap()!==HIST.edit.before)HIST.edit.dirty=true;const a=document.activeElement;if(a&&a!==document.body&&a.blur)a.blur();if(HIST.t)histCommit();if(!HIST.past.length){toast('Nothing to undo.');return;}HIST.future.push(HIST.present);HIST.present=HIST.past.pop();histRestore();toast('↶ Undone');}
+function redo(){const a=document.activeElement;if(a&&a!==document.body&&a.blur)a.blur();if(HIST.t)histCommit();if(!HIST.future.length){toast('Nothing to redo.');return;}HIST.past.push(HIST.present);HIST.present=HIST.future.pop();histRestore();toast('↷ Redone');}
+
+/* ---------- files: calculation (.json) and settings (.json) ---------- */
+let FILE_HANDLE=null,LAST_HANDLE=null;
+function calcFileName(){const C=CURV(),d=fmtDate(today()).replace(/\//g,'.');return safeName(`Curve Calculation - ${C.model||'untitled'}${C.psi!==''?' at '+cleanNum(+C.psi,2)+' '+C.pUnit:''} (${d})`)+'.json';}
+function pickerOpts(name,desc){const o={id:'flg-curve-files',types:[{description:desc,accept:{'application/json':['.json']}}]};if(name)o.suggestedName=name;const h=LAST_HANDLE;if(h)o.startIn=h;return o;}
+function downloadText(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);}
+async function saveCalculation(forceAs){
+  const data=JSON.stringify(Object.assign({savedAt:new Date().toISOString(),app:APP_NAME+' v'+APP_RELEASE},P),null,1),name=calcFileName();
+  if(window.showSaveFilePicker){try{let h=!forceAs&&FILE_HANDLE;if(!h)h=await window.showSaveFilePicker(pickerOpts(name,'Curve Calculator file'));const w=await h.createWritable();await w.write(data);await w.close();FILE_HANDLE=h;LAST_HANDLE=h;toast('Saved '+h.name);return;}catch(e){if(e&&e.name==='AbortError')return;}}
+  downloadText(name,data);toast('Saved '+name+' to your downloads.');
+}
+function readJSONFile(cb){
+  if(window.showOpenFilePicker){window.showOpenFilePicker(pickerOpts(null,'Curve Calculator file')).then(hs=>{const h=hs&&hs[0];if(!h)return;return h.getFile().then(f=>f.text().then(t=>cb(t,f.name,h)));}).catch(e=>{if(e&&e.name==='AbortError')return;fallbackOpen(cb);});return;}
+  fallbackOpen(cb);
+}
+function fallbackOpen(cb){const i=document.getElementById('fileInput');i.onchange=()=>{const f=i.files&&i.files[0];i.value='';if(!f)return;const r=new FileReader();r.onload=()=>cb(String(r.result),f.name,null);r.onerror=()=>alert('Could not read that file.');r.readAsText(f);};i.click();}
+function openCalculation(){readJSONFile((text,name,h)=>{let o=null;try{o=JSON.parse(text);}catch(e){}
+  if(!o||o.kind!==APP_FILE_KIND||!o.curve){alert('“'+name+'” is not a Curve Calculator file.');return;}
+  if(!confirm('Open “'+name+'”? The current calculation in this window will be replaced (Undo restores it).'))return;
+  const keep=JSON.parse(JSON.stringify(P.settings));P=migrate(o);P.settings=keep;FILE_HANDLE=h;if(h)LAST_HANDLE=h;histCommit();save();cur='curve';render();toast('Opened '+name);});}
+async function recoverSession(){let a=await DB.get('recover');if(!a||!a.p)a=lastAuto&&lastAuto.p&&!curveIsBlank(lastAuto.p.curve)?lastAuto:null;if(!a||!a.p){toast('No previous session found on this device.');return;}if(!confirm('Replace the current calculation with the last session from '+new Date(a.t).toLocaleString()+'?'))return;const keep=JSON.parse(JSON.stringify(P.settings));P=migrate(a.p);P.settings=keep;FILE_HANDLE=null;histCommit();save();cur='curve';render();toast('Previous session recovered.');}
+function resetAll(){if(!confirm('Reset every entry to blank? Pump, pressures, flow, PRV, power, EFP and the foam solution / pricing helpers are cleared (Undo restores them).'))return;const old=CURV(),c=newCurve();c.pUnit=old.pUnit;c.flowUnit=old.flowUnit;c.hpUnit=old.hpUnit;P.curve=c;histCommit();save();cur='curve';render();toast('All entries reset.');}
+function newCalculation(){if(!confirm('Start a new, blank calculation? The current one is replaced (Undo restores it).'))return;P.curve=newCurve();FILE_HANDLE=null;histCommit();save();cur='curve';render();toast('New calculation started.');}
+function loadExample(){if(!curveIsBlank(P.curve)&&!CURV().ex&&!confirm('Replace the current calculation with the example? (Undo restores it.)'))return;P.curve=exampleCurve(P.settings.units);FILE_HANDLE=null;histCommit();save();cur='curve';render();toast('Example loaded — FP1.5-50 at 175 psi, 1800 RPM.');}
+
+/* ---------- small UI helpers ---------- */
+let toastT;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(toastT);toastT=setTimeout(()=>t.style.display='none',3200);}
+function closeFileMenu(){const f=document.getElementById('fmenu');if(f)f.classList.remove('open');}
+function getTheme(){try{return localStorage.getItem('flg_curve_theme')||'black';}catch(e){return 'black';}}
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light'?'#1f2633':(t==='dark'?'#12151b':'#000000');}
+function cycleTheme(){const a=['black','dark','light'],n=a[(a.indexOf(getTheme())+1)%a.length];try{localStorage.setItem('flg_curve_theme',n);}catch(e){}applyTheme(n);render(true);}
+function toggleAppFullscreen(){const d=document;if(d.fullscreenElement){if(d.exitFullscreen)d.exitFullscreen();return;}const el=d.documentElement;if(el.requestFullscreen)el.requestFullscreen().catch(()=>toast('Full screen was blocked by this browser.'));else toast('Full screen is not supported in this browser.');}
+function updateFsButton(){const b=document.getElementById('appFsBtn');if(!b)return;const on=!!document.fullscreenElement;b.textContent=on?'🗗':'⛶';b.title=on?'Exit full screen':'Enter full screen';b.setAttribute('aria-label',b.title);}
+document.addEventListener('fullscreenchange',updateFsButton);
+async function requestPassword(purpose){if(document.fullscreenElement&&document.exitFullscreen){try{await document.exitFullscreen();await new Promise(r=>setTimeout(r,80));}catch(e){}}const v=prompt(purpose+' — enter app password:');if(v===null)return false;if(v!==APP_PASSWORD){alert('Incorrect password.');return false;}return true;}
+
+/* ---------- settings ---------- */
+function developerFlagScopes(){return ['Overall app','Section: Curve Calculator','Section: Pump selection','Section: PRV selection','Section: Power','Section: Foam solution / concentrate','Section: Pricing margin','Section: Data tables','Setting: Unit system','Setting: Appearance','Setting: Calculation/settings JSON'].map(v=>({v,t:v}));}
+function developerFlagsEditor(){const d=P.developerUpdateFlags=normalizeDeveloperUpdateFlags(P.developerUpdateFlags),scopes=developerFlagScopes();return `<div class="developer-flags"><h3 style="margin-top:0">🧩 Developer update flags</h3><p class="lead">These notes are stored under <code>developerUpdateFlags</code> in calculation and settings JSON files. The schema tells Microsoft 365 Copilot, Claude, or ChatGPT to treat them as proposed developer-authored app-update requirements. The AI must obtain two explicit user confirmations before implementing any flag, unless the user explicitly asks to implement all updates noted in developer flags. Every flag used must be identified in the revision summary.</p><label><b>Overall developer flag</b><textarea maxlength="240" data-devgeneral="1" placeholder="General app-update note (up to 240 characters)">${esc(d.general)}</textarea><div class="char-count" data-devcount="general">${d.general.length}/240</div></label><h4>Section / setting-specific flags</h4>${d.scoped.map((x,i)=>`<div class="developer-flag-row"><select data-devscope="${i}">${opts(scopes,x.scope)}</select><div><textarea maxlength="240" data-devnote="${i}" placeholder="Specific update note (up to 240 characters)">${esc(x.note)}</textarea><div class="char-count" data-devcount="${i}">${x.note.length}/240</div></div><button class="btn sm danger" data-act="devflagremove" data-i="${i}" aria-label="Remove developer flag">Remove</button></div>`).join('')}<div class="btns" style="margin-top:9px"><button class="btn sm primary" data-act="devflagadd">＋ Add section / setting flag</button></div></div>`;}
+R_.settings=function renderSettings(){
+  const st=P.settings,sw=(k,t,d)=>`<label class="sw"><input type="checkbox" data-set="${k}" ${st[k]?'checked':''}><span>${t}<small>${d||''}</small></span></label>`;
+  const advancedBody=`<p class="lead">Protected options. Unlocked until this page is reloaded or locked again.</p>${sw('developerFlagsEnabled','Developer update flags','Add proposed app-update notes for future revisions; saved in calculation/settings JSON. AI tools are instructed to double-confirm before implementation unless the user explicitly requests all flagged updates.')}${st.developerFlagsEnabled?developerFlagsEditor():''}<div class="btns"><button class="btn primary" data-act="viewcode">⌘ View Code</button><button class="btn" data-act="revisions">⛶ Open Revisions full screen</button><button class="btn" data-act="advlock">🔒 Lock Advanced</button></div>`;
+  return `<div class="settings-head"><div>${head('Settings','Changes save automatically.')}</div><button class="btn primary settings-close" data-act="settingsexit" aria-label="Close settings">✕ Close</button></div><div class="card"><h3>📐 Default unit system</h3><div class="seg"><button data-act="units" data-u="imperial" class="${st.units!=='metric'?'on':''}">US / Imperial</button><button data-act="units" data-u="metric" class="${st.units==='metric'?'on':''}">Metric</button></div><p class="lead" style="margin:8px 0 0">Sets the pressure, flow and power units (psi · GPM · HP or bar · L/min · kW). Switching converts the current values; each field can still use any unit from its own selector.</p></div><div class="card"><h3>About</h3><p class="lead" style="margin:0">Fire Lion Global Curve Calculator v${APP_RELEASE} (${APP_RELEASE_DATE}). Finds the FLG foam pump, PRV and pump power for a duty point from any two of pump model, duty pressure and desired flow (or pump model or duty pressure plus an available power). Pump curve data as of ${CURVE_DATE} (${CURVE_FILE}); custom speeds use pump affinity laws. PRV capacities from ${PRV_SOURCE_FILE} (${PRV_SOURCE_SHEET}) as of ${PRV_SOURCE_DATE}; FM-approval statements are current as of that date. Results are engineering estimates — confirm pump, PRV and driver selections before quoting.</p></div>${ADV_UNLOCKED?`<details class="card advanced-subtle" open><summary style="font-weight:700">⚙ Advanced — unlocked</summary>${advancedBody}</details>`:`<div class="card advanced-subtle"><h3>🔒 Advanced settings</h3><p class="lead">Password required.</p><button class="btn primary" data-act="advunlock">Unlock Advanced settings</button></div>`}`;
+};
+
+/* ---------- code viewer (read-only live source tour) ---------- */
+let CODE_TIMER=null,CODE_FULL='',CODE_ROWS=[],CODE_INDEX=-1;
+function codeTourRows(){return [
+  ['APP_STATE',newProject,'Create the calculation state and default settings.','state'],
+  ['CURVE_STATE',newCurve,'Create a blank curve calculation in the default units.','state'],
+  ['INPUT_MIGRATION',c9Migrate,'Add auto / confirm / lock metadata to every field.','state'],
+  ['SOLVER',c9Run,'Resolve pump, pressure, flow, PRV and power from the entered and locked values.','calculation'],
+  ['CURVE_POINT',curveAt,'Flow and power on a pump curve at any speed (affinity laws).','calculation'],
+  ['PRESSURE_FOR_FLOW',ccPressureForFlow,'Duty pressure at which a pump delivers a given flow.','calculation'],
+  ['PRV_CAPACITY',prvCapacityAt,'Rated PRV capacity at a set pressure from the source table.','calculation'],
+  ['SCREEN_RENDERER',renderCurve,'Render the calculator, summary, comparison table and data tables.','interface'],
+  ['LIVE_REFRESH',c9Refresh,'Update every field except the one being typed in.','interface'],
+  ['UNIT_CONVERSION',convertCurveUnits,'Convert the calculation between Imperial and Metric units.','calculation'],
+  ['SESSION_SAVE',save,'Persist the calculation locally for recovery and undo.','storage'],
+  ['FILE_SAVE',saveCalculation,'Save the calculation to a JSON file.','storage']];}
+function codeViewerText(rows){const alias=rows.map((r,i)=>`${String(i+1).padStart(2,'0')}  const ${r[0]} = ${r[1].name};`).join('\n'),pipeline=rows.map(r=>r[0]).join('\n  -> ');return `// ${APP_NAME} v${APP_RELEASE} — LIVE PROGRAM MAP (READ ONLY)\n// Engineer console: type a function name above or select a tour item.\n// Source is read from the function already loaded by the app, so no duplicate code payload is stored.\n\n${alias}\n\nconst MAIN_PROGRAM_FLOW =\n  ${pipeline};\n\nObject.freeze(MAIN_PROGRAM_FLOW); // viewer cannot edit or execute changes`;}
+function codeSafeText(src){return String(src||'').replace(/(APP_PASSWORD\s*=\s*)['"][^'"]*['"]/g,"$1'••••'").replace(/(enter app password[^\n]*)/gi,'enter protected credential');}
+function codeFocus(name,meta){const n=document.getElementById('codefocusname'),m=document.getElementById('codefocusmeta');if(n)n.textContent=name;if(m)m.textContent=meta;}
+function paintCodeViewer(animate){const pre=document.getElementById('codepre'),modal=document.getElementById('codem'),btn=document.querySelector('#codem [data-act="codeanim"]');if(!pre||!modal)return;clearInterval(CODE_TIMER);CODE_TIMER=null;modal.classList.toggle('noanim',!animate);if(!animate){pre.textContent=CODE_FULL;if(btn)btn.textContent='▶ Animate code';return;}pre.textContent='';let i=0;if(btn)btn.textContent='■ Stop animation';CODE_TIMER=setInterval(()=>{i=Math.min(CODE_FULL.length,i+18);pre.textContent=CODE_FULL.slice(0,i);if(i>=CODE_FULL.length){clearInterval(CODE_TIMER);CODE_TIMER=null;}},10);}
+function showCodeMap(){CODE_INDEX=-1;CODE_FULL=codeViewerText(CODE_ROWS);document.querySelectorAll('#codem .code-item').forEach(x=>x.classList.remove('on'));codeFocus('PROGRAM MAP',`${CODE_ROWS.length} live functions · select one to inspect its source`);paintCodeViewer(false);const w=document.getElementById('codewrap');if(w)w.scrollTop=0;}
+function showCodeTour(i){if(!(i>=0&&i<CODE_ROWS.length))return;CODE_INDEX=i;const row=CODE_ROWS[i],src=codeSafeText(Function.prototype.toString.call(row[1]));CODE_FULL=`// TOUR ${i+1}/${CODE_ROWS.length} · ${row[0]} · ${row[3].toUpperCase()}\n// ${row[2]}\n// Read-only live source (${src.split('\n').length} lines, ${src.length} characters).\n\n${src}`;document.querySelectorAll('#codem .code-item').forEach((x,k)=>x.classList.toggle('on',k===i));codeFocus(`${row[1].name}()`,`${row[0]} · ${row[3]} · ${src.split('\n').length} lines · ${src.length} chars`);const input=document.getElementById('codejump');if(input)input.value=row[1].name+'()';const status=document.getElementById('codestatus');if(status)status.textContent=`Tour ${i+1} of ${CODE_ROWS.length}: ${row[2]}`;paintCodeViewer(false);const w=document.getElementById('codewrap');if(w)w.scrollTop=0;const item=document.querySelector(`#codem .code-item[data-i="${i}"]`);if(item&&item.scrollIntoView)item.scrollIntoView({block:'nearest'});}
+function codeNav(d){showCodeTour(CODE_INDEX<0?(d>0?0:CODE_ROWS.length-1):(CODE_INDEX+d+CODE_ROWS.length)%CODE_ROWS.length);}
+function jumpCodeViewer(raw){const q=String(raw||'').trim().replace(/\(\s*\)$/,'').toLowerCase(),status=document.getElementById('codestatus');if(!q){showCodeMap();if(status)status.textContent='Program map opened.';return;}let i=CODE_ROWS.findIndex(r=>r[1].name.toLowerCase()===q||r[0].toLowerCase()===q);if(i<0)i=CODE_ROWS.findIndex(r=>r[1].name.toLowerCase().startsWith(q)||r[0].toLowerCase().startsWith(q));if(i<0){if(status)status.textContent=`No tour function named “${raw}”. Choose an item below.`;return;}showCodeTour(i);}
+function openCodeViewer(){
+  CODE_ROWS=codeTourRows();CODE_INDEX=-1;CODE_FULL=codeViewerText(CODE_ROWS);let m=document.getElementById('codem');
+  if(!m){m=document.createElement('div');m.id='codem';m.className='code-modal';document.body.appendChild(m);}
+  const options=CODE_ROWS.map(r=>`<option value="${esc(r[1].name)}()">${esc(r[0])}</option>`).join('');
+  m.innerHTML=`<div class="code-head"><div><b>${APP_NAME} v${APP_RELEASE} — Engineer Code Console</b><small>Read-only live source tour; no duplicate application source is embedded.</small><div class="code-command"><label for="codejump">⌘</label><input id="codejump" list="codefunctions" autocomplete="off" spellcheck="false" placeholder="Type c9Run() and press Enter"><datalist id="codefunctions">${options}</datalist><button class="code-btn" data-act="codemap">Program map</button></div><div class="code-status" id="codestatus">Enter a function name, or select a guided-tour item.</div></div><div class="btns"><button class="code-btn" data-act="codeanim">■ Stop animation</button><button class="code-btn" data-act="codeclose">✕ Close</button></div></div><div class="code-grid"><section class="code-tour"><h2>Guided Tour — ${CODE_ROWS.length} main functions</h2>${CODE_ROWS.map((r,i)=>`<button type="button" class="code-item" data-act="codetour" data-i="${i}"><b>${i+1}. ${esc(r[0])}</b><span>${esc(r[2])}</span><code>${esc(r[1].name)}()</code><em>${esc(r[3])}</em></button>`).join('')}</section><section class="code-screen"><div class="code-scan"></div><div class="code-focus"><b id="codefocusname">PROGRAM MAP</b><span id="codefocusmeta">${CODE_ROWS.length} live functions</span><div class="btns"><button class="code-btn" data-act="codenav" data-d="-1">← Prev</button><button class="code-btn" data-act="codemap">Map</button><button class="code-btn" data-act="codenav" data-d="1">Next →</button></div></div><div class="code-codewrap" id="codewrap"><pre id="codepre" aria-label="Read-only program code"></pre></div></section></div>`;
+  m.classList.add('on');const input=document.getElementById('codejump');input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();jumpCodeViewer(input.value);}});
+  paintCodeViewer(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches));setTimeout(()=>input.focus(),30);
+}
+function closeCodeViewer(){clearInterval(CODE_TIMER);CODE_TIMER=null;const m=document.getElementById('codem');if(m)m.classList.remove('on');}
+
+/* ---------- revisions ---------- */
+function openRevisions(){const b=document.getElementById('docbox');b.classList.add('revisions-full');b.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><h2 style="flex:1">Revisions</h2><button class="btn" data-act="docclose">✕ Close</button></div><div class="doc"><h3>v1.1 — 2026-11-20</h3><p>Entry fields have their proper dark styling again (entered values were nearly invisible on a white background). Auto-filled values that are not yet confirmed are <b>orange</b>; values you entered, confirmed or locked are <b>green</b>. New <b>↺ Reset</b> button in the top bar clears every entry. Removed settings backup/restore from the File menu. Prepared for web hosting (GitHub Pages): built-in icon, page description, no external requests, and saving/opening files through the browser’s file picker where available.</p><h3>v1.0 — 2026-11-19</h3><p>First release of the stand-alone <b>Fire Lion Global Curve Calculator</b>. Any two of pump model, duty point pressure and desired flow (or pump model or duty pressure plus an available power) define the pump, PRV and required power; auto-filled values are orange until confirmed, every value can be typed over, and Lock keeps a value from being replaced — a locked desired flow is a minimum that re-selects the pump, and locked values that can no longer be met are reported in red. PRV lift defaults to duty + 15 psi (+30 psi with EFPs) and the PRV is sized at its set pressure. Includes the foam solution/concentrate and pricing-margin helpers, the curve and PRV source tables, undo/redo, autosave recovery, calculation and settings files, Imperial/Metric defaults, themes, and the protected Advanced menu (developer update flags, View Code, Revisions).</p></div>`;document.getElementById('docm').classList.add('on');}
+
+/* ---------- actions ---------- */
+document.addEventListener('click',e=>{
+  if(!(e.target.closest&&e.target.closest('#fmenu')))closeFileMenu();
+  const g=e.target.closest&&e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go);return;}
+  const a=e.target.closest&&e.target.closest('[data-act]');if(!a){if(!e.target.closest('#fmenu'))closeFileMenu();return;}
+  const act=a.dataset.act;
+  switch(act){
+    case 'filemenu':e.stopPropagation();document.getElementById('fmenu').classList.toggle('open');return;
+    case 'newcalc':closeFileMenu();newCalculation();break;
+    case 'open':closeFileMenu();openCalculation();break;
+    case 'save':closeFileMenu();saveCalculation(false);break;
+    case 'saveas':closeFileMenu();saveCalculation(true);break;
+    case 'recover':closeFileMenu();recoverSession();break;
+    case 'example':closeFileMenu();loadExample();break;
+    case 'resetall':resetAll();break;
+    case 'undo':undo();break;
+    case 'redo':redo();break;
+    case 'themecycle':cycleTheme();break;
+    case 'appfs':toggleAppFullscreen();break;
+    case 'settingsexit':go(SETTINGS_RETURN||'curve');break;
+    case 'units':{const u=a.dataset.u==='metric'?'metric':'imperial',prev=P.settings.units;if(u!==prev){P.settings.units=u;convertCurveUnits(P.curve,prev,u);save();render(true);toast(u==='metric'?'Metric units applied.':'Imperial units applied.');}break;}
+    case 'advunlock':requestPassword('Unlock Advanced settings').then(ok=>{if(ok){ADV_UNLOCKED=true;render(true);}});break;
+    case 'advlock':ADV_UNLOCKED=false;render(true);break;
+    case 'viewcode':openCodeViewer();break;
+    case 'codeanim':{const m=document.getElementById('codem');if(m)paintCodeViewer(m.classList.contains('noanim'));break;}
+    case 'codetour':showCodeTour(+a.dataset.i);break;
+    case 'codenav':codeNav(+a.dataset.d);break;
+    case 'codemap':showCodeMap();break;
+    case 'codeclose':closeCodeViewer();break;
+    case 'revisions':openRevisions();break;
+    case 'docclose':document.getElementById('docm').classList.remove('on');break;
+    case 'devflagadd':{const d=P.developerUpdateFlags=normalizeDeveloperUpdateFlags(P.developerUpdateFlags);d.scoped.push({scope:'Overall app',note:''});save();render(true);setTimeout(()=>{const n=document.querySelector(`[data-devnote="${d.scoped.length-1}"]`);if(n)n.focus();},20);break;}
+    case 'devflagremove':{const d=P.developerUpdateFlags=normalizeDeveloperUpdateFlags(P.developerUpdateFlags);d.scoped.splice(+a.dataset.i,1);save();render(true);break;}
+  }
+});
+document.addEventListener('input',e=>{const t=e.target;if(!t.dataset)return;
+  if(t.dataset.devgeneral!==undefined){P.developerUpdateFlags=normalizeDeveloperUpdateFlags(P.developerUpdateFlags);P.developerUpdateFlags.general=t.value.slice(0,240);const c=document.querySelector('[data-devcount="general"]');if(c)c.textContent=P.developerUpdateFlags.general.length+'/240';save();return;}
+  if(t.dataset.devnote!==undefined){P.developerUpdateFlags=normalizeDeveloperUpdateFlags(P.developerUpdateFlags);const i=+t.dataset.devnote;if(P.developerUpdateFlags.scoped[i])P.developerUpdateFlags.scoped[i].note=t.value.slice(0,240);const c=document.querySelector(`[data-devcount="${i}"]`);if(c)c.textContent=(P.developerUpdateFlags.scoped[i]?P.developerUpdateFlags.scoped[i].note.length:0)+'/240';save();return;}
+});
+document.addEventListener('change',e=>{const t=e.target;if(!t.dataset)return;
+  if(t.dataset.devscope!==undefined){P.developerUpdateFlags=normalizeDeveloperUpdateFlags(P.developerUpdateFlags);const i=+t.dataset.devscope;if(P.developerUpdateFlags.scoped[i])P.developerUpdateFlags.scoped[i].scope=t.value;save();return;}
+  if(t.dataset.set){P.settings[t.dataset.set]=t.checked;save();render(true);return;}
+});
+document.addEventListener('keydown',e=>{
+  const k=(e.key||'').toLowerCase(),mod=e.ctrlKey||e.metaKey;
+  if(e.key==='Escape'){if(document.getElementById('codem')&&document.getElementById('codem').classList.contains('on')){closeCodeViewer();return;}if(document.getElementById('docm').classList.contains('on')){document.getElementById('docm').classList.remove('on');return;}if(document.getElementById('fmenu').classList.contains('open')){closeFileMenu();return;}if(cur==='settings'){go(SETTINGS_RETURN||'curve');return;}return;}
+  if(!mod||e.altKey)return;
+  if(k==='s'){e.preventDefault();saveCalculation(e.shiftKey);return;}
+  if(k==='o'){e.preventDefault();openCalculation();return;}
+  if((k==='z'||k==='y')&&!(e.target&&e.target.id==='codejump')){e.preventDefault();if(k==='y'||e.shiftKey)redo();else undo();}
+});
+
+/* ---------- startup ---------- */
+function playStartupCodeAnimation(){return new Promise(resolve=>{let seen=false;try{seen=sessionStorage.getItem('flg_curve_intro_v1')==='1';if(!seen)sessionStorage.setItem('flg_curve_intro_v1','1');}catch(e){}if(seen){resolve();return;}const el=document.getElementById('startupCode'),pre=document.getElementById('startupCodeText');if(!el||!pre){resolve();return;}const safe=`// ${APP_NAME} v${APP_RELEASE} — LIVE PROGRAM MAP (READ ONLY)
+const APP_STATE = newProject;
+const CURVE_STATE = newCurve;
+const SOLVER = c9Run;
+const CURVE_POINT = curveAt;
+const PRV_CAPACITY = prvCapacityAt;
+const SCREEN_RENDERER = renderCurve;
+const SESSION_SAVE = save;
+CURVE_STATE -> SOLVER -> CURVE_POINT -> PRV_CAPACITY -> SCREEN_RENDERER
+// protected credentials are intentionally excluded from this display`;el.classList.add('on');el.setAttribute('aria-hidden','false');pre.textContent='';let i=0;const tick=setInterval(()=>{i=Math.min(safe.length,i+Math.max(8,Math.ceil(safe.length/30)));pre.textContent=safe.slice(0,i);},20);setTimeout(()=>{clearInterval(tick);pre.textContent=safe;el.classList.remove('on');el.setAttribute('aria-hidden','true');resolve();},1050);});}
+(async function init(){
+  const ld=document.getElementById('loadmsg');if(ld)ld.parentNode.removeChild(ld);
+  applyTheme(getTheme());updateFsButton();
+  const ls=loadLocalSettings();if(ls){P.settings=ls;if(ls.units==='metric')P.curve=newCurve('metric');}
+  const intro=playStartupCodeAnimation();
+  render();histReset();
+  DB.open().then(()=>DB.get('autosave')).then(a=>{lastAuto=a;});
+  await intro;
+})();
+</script>
+</body></html>
