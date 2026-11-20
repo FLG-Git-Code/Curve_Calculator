@@ -11,7 +11,7 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23c8102e'/%3E%3Cpath d='M10 48 Q28 12 54 18' stroke='%23fff' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='38' cy='22' r='6' fill='%23ffd400'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23c8102e'/%3E%3Cpath d='M10 48 Q28 12 54 18' stroke='%23fff' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='38' cy='22' r='6' fill='%23ffd400'/%3E%3C/svg%3E">
-<title>FLG_Curve_Calculator_v1.1 – Fire Lion Global</title>
+<title>FLG_Curve_Calculator_v1.2 – Fire Lion Global</title>
 <style>:root,[data-theme=light]{--red:#c00000;--brand:#c8102e;--ink:#1d2430;--mut:#667085;--line:#d9dee7;--line2:#eef0f4;--bg:#f4f6f9;--card:#fff;--card2:#f7f8fa;--hover:#f3f5f9;--sel:#eef3fc;--blue:#2f5fb3;--link:#2f5fb3;
  --flag:#e8890c;--ok:#1e8e3e;--warn:#d9a400;--bad:#d93025;--imp:#6b3fb8;--hdr:#1f2633;--hbtn:#2e3747;--hbtnb:#3d4759;
  --fbg:#fff;--fink:#1a3f8f;--fbd:#c9d0db;--empty:#fff0dc;--emptyb:#f0b061;--filled:#e5f6e9;--filledb:#8fcf9f;
@@ -239,6 +239,9 @@ header.top .fmenu .dd{top:calc(48px + env(safe-area-inset-top));max-height:calc(
 .c9-grid .field.c9-locked .flabel:after{content:" 🔒";font-size:12px}
 .c9-efp{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--card2)}
 .c9-efp input{width:18px;height:18px;margin-top:2px}
+.c9-noprv{display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:3px 8px;border:1px solid var(--fbd);border-radius:7px;background:var(--card2);font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.c9-noprv input{width:17px;height:17px;margin:0}
+.c9-noprv.on{border-color:var(--flag);background:var(--orgbg);color:var(--orgfg)}
 .c9-disc{font-size:12.5px;line-height:1.35;border-left:3px solid var(--flag);padding:6px 10px;margin-top:7px;background:var(--card2);border-radius:0 8px 8px 0}
 .c9-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0 4px}
 .c9-summary .kpi{margin:0}
@@ -302,7 +305,7 @@ if(!ok){window.__FLG_OLD__=true;document.write('<div style="max-width:640px;marg
 <div class="cropm" id="docm"><div class="fbox" id="docbox"></div></div>
 <div id="toast" style="display:none;position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#1f2633;color:#fff;padding:10px 16px;border-radius:10px;z-index:99;font-size:14px;max-width:90vw"></div>
 <input type="file" accept=".json,application/json,text/plain" hidden id="fileInput">
-<div class="startup-code" id="startupCode" aria-hidden="true"><div class="scan"></div><div class="startup-title">⌘ VIEW CODE <span>FLG Curve Calculator v1.1 · read only</span></div><pre id="startupCodeText"></pre></div>
+<div class="startup-code" id="startupCode" aria-hidden="true"><div class="scan"></div><div class="startup-title">⌘ VIEW CODE <span>FLG Curve Calculator v1.2 · read only</span></div><pre id="startupCodeText"></pre></div>
 <script>const R_={}; // section renderers
 const CURVE_DATE = '7/24/2025';
 const CURVE_FILE = 'Curve_Calculator_11.5.2026.xlsx';
@@ -383,6 +386,10 @@ function c9Hi(m){return m==='FP4-350'?232:261;}
 function c9Migrate(C){
   if(!C)return C;
   if(C.efp==null)C.efp=false;
+  /* v1.1 stored No PRV as a PRV-size option. v1.2 keeps it as an explicit mode. */
+  if(C.noPrv==null)C.noPrv=C.prvSize==='none';
+  C.noPrv=!!C.noPrv;
+  if(C.prvSize==='none')C.prvSize='';
   if(C.m9&&typeof C.m9==='object'){C9_KEYS.forEach(k=>{if(!C.m9[k])C.m9[k]={src:'auto',conf:false,lock:false,t:0};});return C;}
   /* a curve without metadata (new): every field starts automatic */
   C.m9={};C9_KEYS.forEach(k=>{C.m9[k]={src:'auto',conf:false,lock:false,t:0};});
@@ -410,8 +417,11 @@ function c9Run(C){
   c9Migrate(C);const M=C.m9,R={notes:[],warns:[],errs:[],dropped:null};
   C.pUnit=C.pUnit||'psi';C.flowUnit=C.flowUnit||'GPM';C.hpUnit=C.hpUnit||'HP';
   if(C.model&&!CURVE[C.model]){C.model='';M.model.src='auto';}
-  /* listing & PRV model */
-  c9SetAuto(C,'listing','UL-FM');if(!C.prvListing)C.prvListing='UL-FM';
+  /* listing & PRV model. No-PRV applications are always Non-Listed. */
+  if(C.noPrv&&C.prvListing!=='non'){
+    C.prvListing='non';M.listing.src='auto';M.listing.conf=false;M.listing.lock=false;C.noPrvListingWarning=true;
+  }
+  c9SetAuto(C,'listing',C.noPrv?'non':'UL-FM');if(!C.prvListing)C.prvListing=C.noPrv?'non':'UL-FM';
   c9SetAuto(C,'prvModel',ccPrvDefaultModel(C.prvListing));
   /* speed */
   c9SetAuto(C,'rpm','1800');const rpm=c9Num(C.rpm),rpmOk=rpm>=1&&rpm<=3000;
@@ -434,7 +444,7 @@ function c9Run(C){
   C.solvedT=Math.max(C.solvedT||0,newest);
   const has=k=>fixed.includes(k),hpUser=c9Fixed(C,'hp'),hpAvail=hpUser?ccToHp(C.hp,C.hpUnit):NaN,prvUser=c9Fixed(C,'prv');
   const toP=v=>ccToPsi(v,C.pUnit),fromP=v=>cleanNum(ccFromPsi(v,C.pUnit),c9PDec(C.pUnit)),fromQ=v=>cleanNum(ccFromGpm(v,C.flowUnit),c9FlowDec(C.flowUnit));
-  const noPrv=C.prvSize==='none'&&c9Fixed(C,'prvSize');
+  const noPrv=!!C.noPrv;
   const liftFor=p=>prvUser?toP(C.prv):p+c9Margin(C);
   let model=has('model')?C.model:'',psi=has('psi')?toP(C.psi):NaN,flow=has('flow')?ccToGpm(C.flow,C.flowUnit):NaN;
   const models=Object.keys(CURVE);
@@ -474,6 +484,7 @@ function c9Run(C){
   c9SetAuto(C,'hp',isFinite(wReq)?cleanNum(ccFromHp(wReq,C.hpUnit),1):'');
   Object.assign(R,{model,rpm,rpmOk,psi,flow,qc,lift,noPrv,wDuty,wLift,wReq,hpAvail:hpUser?ccToHp(C.hp,C.hpUnit):NaN,cp});
   /* checks */
+  if(noPrv&&C.noPrvListingWarning)R.warns.push('<b>No PRV forced the application to Non-Listed.</b> UL-Listed and UL-Listed &amp; FM-Approved cannot be selected while No PRV is checked. Uncheck No PRV before selecting a listed approval.');
   if(model&&isFinite(psi)){const hi=c9Hi(model);if(psi<100-1e-9||psi>hi+1e-9)R.warns.push(`<b>Outside FLG listings and approvals.</b> ${model} has a listed duty-pressure range of 100–${hi} psi. At ${c9P(C,psi)} this is a <b>non-listed pump application</b>; the curve values are extrapolated and need engineering/manufacturer review.`);}
   if(cp&&cp.affinity&&model){const eq=psi/Math.pow(rpm/cp.base,2),hi=c9Hi(model);if(eq<100-1e-6||eq>hi+1e-6)R.warns.push(`<b>Extrapolated speed point.</b> At ${fx(rpm,0)} RPM, ${c9P(C,psi)} corresponds to ${fx(eq,1)} psi on the ${cp.base} RPM source curve — outside its 100–${hi} psi data. Treat the flow and power as estimates.`);}
   if(cp&&cp.affinity)R.notes.push(`${fx(rpm,0)} RPM uses pump affinity laws from the ${cp.base} RPM source curve.`);
@@ -520,15 +531,16 @@ function renderCurve(){
   const modelSel=`<select class="curve-pump-model${c9Cls(C,'model')}" data-c9="model">${opts([{v:'',t:autoModelText}].concat(Object.keys(CURVE).map(m=>({v:m,t:`${m} (${pumpFlowLabel(m)})`}))),C.m9.model.src==='auto'?'':C.model)}</select>`;
   const rpmMode=C.m9.rpm.src==='auto'?'1800':(C.rpmCustom||!['1500','1800'].includes(String(C.rpm))?'custom':String(C.rpm));
   const rpmCtl=`<select class="${c9Cls(C,'rpm').trim()}" data-c9="rpmMode">${opts([{v:'1800',t:'1800 RPM'},{v:'1500',t:'1500 RPM'},{v:'custom',t:'Custom RPM…'}],rpmMode)}</select>${rpmMode==='custom'?num('rpm','1–3000'):''}`;
-  const listingCtl=sel('listing',[{v:'non',t:'Non-Listed'},{v:'ul',t:'UL-Listed'},{v:'UL-FM',t:'UL-Listed & FM-Approved'}],C.prvListing);
+  const listingItems=[{v:'non',t:'Non-Listed'},{v:'ul',t:'UL-Listed'},{v:'UL-FM',t:'UL-Listed & FM-Approved'}];
+  const listingCtl=`<select class="${c9Cls(C,'listing').trim()}" data-c9="listing">${listingItems.map(o=>`<option value="${o.v}" ${o.v===C.prvListing?'selected':''} ${noPrv&&o.v!=='non'?'disabled':''}>${o.t}</option>`).join('')}</select>`;
   const prvModelCtl=`<select class="${c9Cls(C,'prvModel').trim()}" data-c9="prvModel" ${noPrv?'disabled':''}>${opts([{v:'511',t:'511 — Apollo (FM-approved)'},{v:'740',t:'740 — Aquatrol (preferred for non-FM)'}],C.prvModel)}</select>`;
   const prvSizeMode=C.m9.prvSize.src==='auto'&&!C.m9.prvSize.lock?'auto':(C.prvSize||'auto');
-  const prvSizeCtl=`<select class="prv-select${c9Cls(C,'prvSize')}" data-c9="prvSize">${opts([{v:'auto',t:C.m9.prvSize.src==='auto'&&C.prvSize?`Auto — ${C.prvSize} in`:'Auto — enter pressure & flow'},{v:'none',t:'No PRV — power from the duty point'}].concat(PRV_SIZES.map(x=>({v:x,t:x+' in'}))),prvSizeMode)}</select>`;
+  const prvSizeCtl=`<select class="prv-select${c9Cls(C,'prvSize')}" data-c9="prvSize" ${noPrv?'disabled':''}>${opts([{v:'auto',t:C.m9.prvSize.src==='auto'&&C.prvSize?`Auto — ${C.prvSize} in`:'Auto — enter pressure & flow'}].concat(PRV_SIZES.map(x=>({v:x,t:x+' in'}))),prvSizeMode)}</select>`;
   const capTxt=noPrv?'Not applicable — No PRV.':(isFinite(R.prvCap)?`Rated ${c9Q(C,R.prvCap)} at the ${c9P(C,R.lift)} set pressure (pump flow ${c9Q(C,R.qPrv)}). 0.75 × 1 in is never auto-selected.`:'Sized from the pump flow at the PRV set pressure.');
   const powerBasis=noPrv?'duty point (No PRV)':'PRV lift pressure';
   const hpConv=C.hp!==''?ccOppositePower(C.hp,C.hpUnit):'';
   const statusBox=(cls,list)=>list.map(t=>`<div class="${cls} curve-summary">${t}</div>`).join('');
-  const how=`<div class="c9-how"><b>How it works:</b> enter any two of <b>pump model</b>, <b>duty point pressure</b> and <b>desired flow</b> (or pump model or duty pressure plus an available <b>power</b>); everything else fills in automatically in <span class="c9-src auto">orange</span> until you tick <b>Confirm</b>. Every value can be typed over. Tick <b>Lock</b> to keep a value from being replaced when other inputs change; <b>↺ Use auto</b> hands a typed value back to the calculator.</div>`;
+  const how=`<div class="c9-how"><b>How it works:</b> enter any two of <b>pump model</b>, <b>duty point pressure</b> and <b>desired flow</b>. You can also select a pump and enter available <b>power</b>; the calculator fills the missing duty pressure using the default PRV lift of duty + ${c9Margin(C)} psi. Everything else fills in automatically in <span class="c9-src auto">orange</span> until you tick <b>Confirm</b>. Every value can be typed over. Tick <b>Lock</b> to keep a value from being replaced when other inputs change; <b>↺ Use auto</b> hands a typed value back to the calculator.</div>`;
   const fields=`<div class="c9-grid">
     ${c9Field(C,'model','Pump model',modelSel,model?`${esc(model)}: ${esc(pumpFlowLabel(model))}`:'Auto picks the smallest pump that delivers the desired flow at the duty pressure.','c9-wide')}
     ${c9Field(C,'listing','Pump listing / approval',listingCtl,'Sets the default PRV model (UL & FM → 511; Non-Listed/UL → 740).')}
@@ -536,7 +548,7 @@ function renderCurve(){
     ${c9Field(C,'flow','Desired flow rate',num('flow','flow')+unit('flow','flowUnit',fList),(ccOppositeFlow(C.flow,C.flowUnit)||'Per pump.')+(isFinite(R.qc)&&C.m9.flow.src==='user'?` · Pump curve: ${fx(ccFromGpm(R.qc,C.flowUnit),c9FlowDec(C.flowUnit))} ${esc(C.flowUnit)}`:''))}
     ${c9Field(C,'rpm','Motor speed',rpmCtl,R.rpmOk?(+C.rpm===1500||+C.rpm===1800?'Source curve speed.':'Affinity-law extrapolation from the nearest source speed.'):'Enter a speed from 1 to 3000 RPM.')}
     <div class="field c9-full"><label class="c9-efp"><input type="checkbox" data-c9efp="1" ${C.efp?'checked':''}><span><b>System has EFPs</b> — default the PRV lift to <b>30 psi</b> above the duty point instead of 15 psi.</span></label></div>
-    ${c9Field(C,'prv','PRV lift (set) pressure',num('prv','pressure').replace('<input ',`<input ${noPrv?'disabled ':''}`)+unit('pressure','pUnit',pList),noPrv?'No PRV selected.':(ccOppositePressure(C.prv,C.pUnit)||`Defaults to duty point + ${c9Margin(C)} psi.`))}
+    ${c9Field(C,'prv',`PRV lift (set) pressure <label class="c9-noprv noprint${noPrv?' on':''}" title="No-PRV mode is restricted to Non-Listed applications"><input type="checkbox" data-c9noprv="1" ${noPrv?'checked':''}> No PRV</label>`,num('prv','pressure').replace('<input ',`<input ${noPrv?'disabled ':''}`)+unit('pressure','pUnit',pList),noPrv?'No PRV — pump power is calculated at the duty point. This mode is Non-Listed only.':(ccOppositePressure(C.prv,C.pUnit)||`Defaults to duty point + ${c9Margin(C)} psi.`))}
     ${c9Field(C,'prvModel','PRV model',prvModelCtl,'Only model 511 has FM approval as of '+PRV_SOURCE_DATE+'.')}
     ${c9Field(C,'prvSize','PRV size',prvSizeCtl,capTxt)}
     <div class="field c9-full"><div class="c9-disc"><b>PRV set pressure:</b> the lift defaults to <b>${c9Margin(C)} psi over the duty point</b>${C.efp?' (EFP setting)':''}. Some systems need more margin — for example systems with EFPs. Verify the set pressure against the system design.</div></div>
@@ -578,6 +590,9 @@ document.addEventListener('change',e=>{
   const t=e.target;if(!t.dataset)return;const C=CURV();
   if(t.dataset.c9!==undefined&&t.tagName==='SELECT'){
     e.stopImmediatePropagation();c9Migrate(C);C.ex=false;const k=t.dataset.c9;
+    if(k==='listing'&&C.noPrv&&t.value!=='non'){
+      C.prvListing='non';C.m9.listing.src='auto';C.m9.listing.conf=false;C.m9.listing.lock=false;C.noPrvListingWarning=true;save();render9Soon();alert('No PRV is only allowed for Non-Listed applications. The approval has been returned to Non-Listed. Uncheck No PRV before selecting UL-Listed or UL-Listed & FM-Approved.');return;
+    }
     if(k==='rpmMode'){const m=C.m9.rpm;m.src='user';m.t=Date.now();if(t.value==='custom'){C.rpmCustom=true;setTimeout(()=>{const i=document.querySelector('input[data-c9="rpm"]');if(i){i.focus();try{i.select();}catch(er){}}},30);}else{C.rpmCustom=false;C.rpm=t.value;}}
     else if(k==='model'){const m=C.m9.model;if(!t.value){m.src='auto';m.conf=false;m.lock=false;C.model='';}else{C.model=t.value;m.src='user';m.t=Date.now();if(C.lastDropped==='model')C.lastDropped=null;}}
     else if(k==='prvSize'){const m=C.m9.prvSize;if(t.value==='auto'){m.src='auto';m.conf=false;m.lock=false;C.prvSize='';}else{C.prvSize=t.value;m.src='user';m.t=Date.now();}}
@@ -592,6 +607,18 @@ document.addEventListener('change',e=>{
   if(t.dataset.c9conf){e.stopImmediatePropagation();c9Migrate(C);C.m9[t.dataset.c9conf].conf=t.checked;save();render(true);return;}
   if(t.dataset.c9lock){e.stopImmediatePropagation();c9Migrate(C);const m=C.m9[t.dataset.c9lock];m.lock=t.checked;if(t.checked){m.conf=true;}else if(m.src==='auto'){m.conf=false;}save();render(true);toast(t.checked?`${C9_LABEL[t.dataset.c9lock]} locked — other inputs will not replace it.`:`${C9_LABEL[t.dataset.c9lock]} unlocked.`);return;}
   if(t.dataset.c9efp){e.stopImmediatePropagation();C.efp=t.checked;save();render(true);return;}
+  if(t.dataset.c9noprv){
+    e.stopImmediatePropagation();c9Migrate(C);C.noPrv=t.checked;C.ex=false;
+    if(C.noPrv){
+      C.prv='';C.m9.prv.src='auto';C.m9.prv.conf=false;C.m9.prv.lock=false;
+      C.prvSize='';C.m9.prvSize.src='auto';C.m9.prvSize.conf=false;C.m9.prvSize.lock=false;
+      const forced=C.prvListing!=='non';C.prvListing='non';C.m9.listing.src='auto';C.m9.listing.conf=false;C.m9.listing.lock=false;C.noPrvListingWarning=forced;
+      save();render(true);
+      if(forced)alert('No PRV is only allowed for Non-Listed applications. The approval has been changed to Non-Listed. UL-Listed and UL-Listed & FM-Approved stay disabled until No PRV is unchecked.');
+      else toast('No PRV enabled — power is calculated at the duty point.');
+    }else{C.noPrvListingWarning=false;save();render(true);toast('No PRV disabled — PRV lift defaults to the duty point plus '+c9Margin(C)+' psi.');}
+    return;
+  }
   if(t.dataset.c9!==undefined&&t.tagName==='INPUT'){e.stopImmediatePropagation();render9Soon();return;}
 },true);
 document.addEventListener('click',e=>{
@@ -607,14 +634,14 @@ document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||t.dataset.
 document.addEventListener('change',e=>{const t=e.target;if(!t.dataset||t.dataset.ccv===undefined)return;CURV().conv[t.dataset.ccv]=t.value;save();render9Soon();});
 
 /* ================= FLG CURVE CALCULATOR — APP SHELL ================= */
-const APP_NAME='FLG Curve Calculator',APP_RELEASE='1.1',APP_RELEASE_DATE='2026-11-20',APP_PASSWORD='1991',APP_FILE_KIND='flg-curve-calculator';
+const APP_NAME='FLG Curve Calculator',APP_RELEASE='1.2',APP_RELEASE_DATE='2026-11-20',APP_PASSWORD='1991',APP_FILE_KIND='flg-curve-calculator';
 
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 const fmtDate=iso=>{const m=String(iso||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?`${+m[2]}/${+m[3]}/${m[1]}`:String(iso||'');};
 function safeName(s){return String(s||'').replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,' ').trim();}
 
 /* ---------- curve state ---------- */
-function newCurve(units){const c={model:'',psi:'',pUnit:'psi',prv:'',hp:'',hpUnit:'HP',flow:'',flowUnit:'GPM',rpm:'1800',rpmMode:'1800',prvListing:'UL-FM',prvModel:'511',prvSize:'',efp:false,conv:{sol:'',pct:'0.03',conc:'',pct2:'0.03',cost:'',price:'',margin:''}};if((units||(typeof P!=='undefined'&&P&&P.settings&&P.settings.units))==='metric')convertCurveUnits(c,'imperial','metric');return c9Migrate(c);}
+function newCurve(units){const c={model:'',psi:'',pUnit:'psi',prv:'',hp:'',hpUnit:'HP',flow:'',flowUnit:'GPM',rpm:'1800',rpmMode:'1800',prvListing:'UL-FM',prvModel:'511',prvSize:'',noPrv:false,noPrvListingWarning:false,efp:false,conv:{sol:'',pct:'0.03',conc:'',pct2:'0.03',cost:'',price:'',margin:''}};if((units||(typeof P!=='undefined'&&P&&P.settings&&P.settings.units))==='metric')convertCurveUnits(c,'imperial','metric');return c9Migrate(c);}
 /* Example: FP1.5-50 at 175 psi, 1800 rpm, 71 gpm of 3 % concentrate */
 function exampleCurve(units){const c=newCurve('imperial');Object.assign(c,{model:'FP1.5-50',psi:'175',ex:true});c.m9.model.src='user';c.m9.model.t=1;c.m9.psi.src='user';c.m9.psi.t=2;Object.assign(c.conv,{conc:'71',pct2:'0.03'});if(units==='metric')convertCurveUnits(c,'imperial','metric');return c;}
 function newProject(){return {kind:APP_FILE_KIND,v:+APP_RELEASE.replace('.',''),settings:{units:'imperial',developerFlagsEnabled:false},developerUpdateFlags:newDeveloperUpdateFlags(),curve:newCurve('imperial')};}
@@ -622,7 +649,7 @@ function cleanCurve(c){const n=newCurve('imperial');c=c&&typeof c==='object'?c:{
   ['psi','prv','hp','flow','rpm'].forEach(k=>{const v=c[k];c[k]=v===''||v==null?'':(isFinite(+v)?String(v):'');});
   if(!CC_PRESSURE[c.pUnit])c.pUnit=n.pUnit;if(!CC_FLOW[c.flowUnit])c.flowUnit=n.flowUnit;if(!CC_POWER[c.hpUnit])c.hpUnit=n.hpUnit;
   if(c.model&&!CURVE[c.model])c.model='';if(!['non','ul','UL-FM'].includes(c.prvListing))c.prvListing='UL-FM';if(!['511','740'].includes(String(c.prvModel)))c.prvModel=ccPrvDefaultModel(c.prvListing);
-  if(c.prvSize&&c.prvSize!=='none'&&!PRV_SIZES.includes(c.prvSize))c.prvSize='';c.efp=!!c.efp;return c;}
+  if(c.prvSize&&c.prvSize!=='none'&&!PRV_SIZES.includes(c.prvSize))c.prvSize='';if(c.noPrv==null)c.noPrv=c.prvSize==='none';c.noPrv=!!c.noPrv;if(c.prvSize==='none')c.prvSize='';c.noPrvListingWarning=!!c.noPrvListingWarning;c.efp=!!c.efp;return c;}
 function loadLocalSettings(){try{const o=JSON.parse(localStorage.getItem('flg_curve_settings')||'null');if(o&&typeof o==='object')return Object.assign(newProject().settings,o);}catch(e){}return null;}
 function storeLocalSettings(){try{localStorage.setItem('flg_curve_settings',JSON.stringify(P.settings));}catch(e){}}
 function migrate(p){const b=newProject();p=p&&typeof p==='object'?p:{};const out={kind:APP_FILE_KIND,v:b.v,settings:Object.assign(b.settings,p.settings||{}),developerUpdateFlags:normalizeDeveloperUpdateFlags(p.developerUpdateFlags),curve:Object.assign(newCurve('imperial'),cleanCurve(p.curve))};
@@ -772,7 +799,7 @@ function openCodeViewer(){
 function closeCodeViewer(){clearInterval(CODE_TIMER);CODE_TIMER=null;const m=document.getElementById('codem');if(m)m.classList.remove('on');}
 
 /* ---------- revisions ---------- */
-function openRevisions(){const b=document.getElementById('docbox');b.classList.add('revisions-full');b.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><h2 style="flex:1">Revisions</h2><button class="btn" data-act="docclose">✕ Close</button></div><div class="doc"><h3>v1.1 — 2026-11-20</h3><p>Entry fields have their proper dark styling again (entered values were nearly invisible on a white background). Auto-filled values that are not yet confirmed are <b>orange</b>; values you entered, confirmed or locked are <b>green</b>. New <b>↺ Reset</b> button in the top bar clears every entry. Removed settings backup/restore from the File menu. Prepared for web hosting (GitHub Pages): built-in icon, page description, no external requests, and saving/opening files through the browser’s file picker where available.</p><h3>v1.0 — 2026-11-19</h3><p>First release of the stand-alone <b>Fire Lion Global Curve Calculator</b>. Any two of pump model, duty point pressure and desired flow (or pump model or duty pressure plus an available power) define the pump, PRV and required power; auto-filled values are orange until confirmed, every value can be typed over, and Lock keeps a value from being replaced — a locked desired flow is a minimum that re-selects the pump, and locked values that can no longer be met are reported in red. PRV lift defaults to duty + 15 psi (+30 psi with EFPs) and the PRV is sized at its set pressure. Includes the foam solution/concentrate and pricing-margin helpers, the curve and PRV source tables, undo/redo, autosave recovery, calculation and settings files, Imperial/Metric defaults, themes, and the protected Advanced menu (developer update flags, View Code, Revisions).</p></div>`;document.getElementById('docm').classList.add('on');}
+function openRevisions(){const b=document.getElementById('docbox');b.classList.add('revisions-full');b.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><h2 style="flex:1">Revisions</h2><button class="btn" data-act="docclose">✕ Close</button></div><div class="doc"><h3>v1.2 — 2026-11-20</h3><p>Entering available power with a selected pump now explicitly fills the missing duty pressure using pump power at the default PRV lift (duty + 15 psi, or +30 psi with EFPs). Added a dedicated <b>No PRV</b> checkbox beside the PRV lift field. No-PRV calculations use duty-point power and are restricted to <b>Non-Listed</b>: checking No PRV automatically returns UL or UL &amp; FM selections to Non-Listed with a warning, and listed approvals cannot be selected until No PRV is unchecked. Migrates v1.1 calculation files that used the old No PRV size option. Rechecked Windows-style desktop behavior in Microsoft Edge and Chromium, including keyboard input, file-download fallback and responsive layout.</p><h3>v1.1 — 2026-11-20</h3><p>Entry fields have their proper dark styling again (entered values were nearly invisible on a white background). Auto-filled values that are not yet confirmed are <b>orange</b>; values you entered, confirmed or locked are <b>green</b>. New <b>↺ Reset</b> button in the top bar clears every entry. Removed settings backup/restore from the File menu. Prepared for web hosting (GitHub Pages): built-in icon, page description, no external requests, and saving/opening files through the browser’s file picker where available.</p><h3>v1.0 — 2026-11-19</h3><p>First release of the stand-alone <b>Fire Lion Global Curve Calculator</b>. Any two of pump model, duty point pressure and desired flow (or pump model or duty pressure plus an available power) define the pump, PRV and required power; auto-filled values are orange until confirmed, every value can be typed over, and Lock keeps a value from being replaced — a locked desired flow is a minimum that re-selects the pump, and locked values that can no longer be met are reported in red. PRV lift defaults to duty + 15 psi (+30 psi with EFPs) and the PRV is sized at its set pressure. Includes the foam solution/concentrate and pricing-margin helpers, the curve and PRV source tables, undo/redo, autosave recovery, calculation and settings files, Imperial/Metric defaults, themes, and the protected Advanced menu (developer update flags, View Code, Revisions).</p></div>`;document.getElementById('docm').classList.add('on');}
 
 /* ---------- actions ---------- */
 document.addEventListener('click',e=>{
